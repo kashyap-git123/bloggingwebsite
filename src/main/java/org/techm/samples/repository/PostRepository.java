@@ -1,0 +1,11 @@
+package org.techm.samples.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.techm.samples.entity.Post;
+import org.techm.samples.entity.Status;
+
+public interface PostRepository extends JpaRepository<Post, Long> {
+    List<Post> findByStatus(Status status);
+}
