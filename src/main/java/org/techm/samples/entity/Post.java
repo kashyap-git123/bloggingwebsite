@@ -1,6 +1,7 @@
 package org.techm.samples.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
