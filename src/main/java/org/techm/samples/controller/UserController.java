@@ -1,31 +1,94 @@
+/*
+ * package org.techm.samples.controller;
+ * 
+ * import org.springframework.beans.factory.annotation.Autowired; import
+ * org.springframework.http.ResponseEntity; import
+ * org.springframework.web.bind.annotation.*; import
+ * org.techm.samples.entity.User; import org.techm.samples.service.UserService;
+ * 
+ * @RestController
+ * 
+ * @RequestMapping("/blog/users") public class UserController {
+ * 
+ * @Autowired private UserService userService;
+ * 
+ * @PostMapping("/register") public ResponseEntity<User>
+ * registerUser(@RequestBody User user) { User savedUser =
+ * userService.register(user); return ResponseEntity.ok(savedUser); }
+ * 
+ * @GetMapping("/login/{email}") public ResponseEntity<?>
+ * getUserDetails(@PathVariable String email) { try { return
+ * ResponseEntity.ok(userService.userByUsername(email)); } catch (Exception e) {
+ * return ResponseEntity.status(404).body("User not found"); } } }
+ */
+
 package org.techm.samples.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.techm.samples.entity.User;
 import org.techm.samples.service.UserService;
 
-@RestController
+@Controller
 @RequestMapping("/blog/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        User savedUser = userService.register(user);
-        return ResponseEntity.ok(savedUser);
+    // Show login page
+    @GetMapping("/login")
+    String loginPage() {
+        return "blogs/login"; // maps to templates/blogs/login.html
     }
 
-    @GetMapping("/login/{email}")
-    public ResponseEntity<?> getUserDetails(@PathVariable String email) {
-        try {
-            return ResponseEntity.ok(userService.userByUsername(email));
-        } catch (Exception e) {
-            return ResponseEntity.status(404).body("User not found");
-        }
+    // Show registration page
+    @GetMapping("/register")
+    public String registerPage(Model model) {
+        model.addAttribute("user", new User());
+        return "blogs/register"; // maps to templates/blogs/register.html
     }
+
+    // Handle registration form submission
+    @PostMapping("/register")
+    public String registerUser(@ModelAttribute("user") User user) {
+    	System.out.println("Saving user: " + user.getEmail());
+        userService.register(user);
+        return "redirect:/blog/users/login";
+    }
+
+    // Blogger dashboard (only accessible to BLOGGER role)
+    @GetMapping("/blogger/dashboard")
+    @PreAuthorize("hasRole('BLOGGER')")
+    public String bloggerDashboard() {
+        return "blogs/blogger-dashboard"; // create this template
+    }
+
+    // Reader dashboard (only accessible to READER role)
+    @GetMapping("/reader/dashboard")
+    @PreAuthorize("hasRole('GUEST')")
+    public String readerDashboard() {
+        return "blogs/reader-dashboard"; // create this template
+    }
+    
+
+    @GetMapping("/redirect")
+    public String redirectAfterLogin(Authentication authentication) {
+        if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_BLOGGER"))) {
+            return "redirect:/blog/users/blogger/dashboard";
+        } else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_GUEST"))) {
+            return "redirect:/blog/users/reader/dashboard";
+        }
+        return "redirect:/blog/users/login?error";
+    }
+
 }
 

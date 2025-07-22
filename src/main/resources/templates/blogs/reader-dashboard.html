@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Guest Dashboard</title>
+</head>
+<body>
+    <h2>Welcome, Reader!</h2>
+
+    <p>Explore published blog posts:</p>
+    <ul>
+        <li><a th:href="@{/blog}">Browse All Posts</a></li>
+        <li><a th:href="@{/blog/popular}">Popular Posts</a></li>
+        <li><a th:href="@{/blog/recommended}">Recommended for You</a></li>
+    </ul>
+
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</body>
+</html>

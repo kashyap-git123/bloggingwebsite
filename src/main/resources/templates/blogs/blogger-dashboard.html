@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Blogger Dashboard</title>
+</head>
+<body>
+    <h2>Welcome, Blogger!</h2>
+
+    <p>You can manage your posts here:</p>
+    <ul>
+        <li><a th:href="@{/posts/create}">Create New Post</a></li>
+        <li><a th:href="@{/posts/mine}">View My Posts</a></li>
+        <li><a th:href="@{/posts/drafts}">View Drafts</a></li>
+    </ul>
+
+    <form th:action="@{/logout}" method="post">
+        <button type="submit">Logout</button>
+    </form>
+</body>
+</html>
