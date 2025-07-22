@@ -1,6 +1,5 @@
 package org.techm.samples.entity;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -10,7 +9,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
@@ -29,14 +27,8 @@ public class Comment {
     @JsonIgnoreProperties({"comments", "likes", "author"})
     private Post post;
 
-    @ManyToOne
-    @JoinColumn(name = "parent_id")
-    @JsonIgnoreProperties({"replies", "post", "parent"})
-    private Comment parent;
-
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties({"parent", "replies", "post"})
-    private List<Comment> replies = new ArrayList<>();
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Reply> replies;
 
 
 	public Long getId() {
@@ -87,27 +79,37 @@ public class Comment {
 		this.post = post;
 	}
 
-	public Comment getParent() {
-		return parent;
-	}
-
-	public void setParent(Comment parent) {
-		this.parent = parent;
-	}
-
-	public List<Comment> getReplies() {
+	public List<Reply> getReplies() {
 		return replies;
 	}
 
-	public void setReplies(List<Comment> replies) {
+	public void setReplies(List<Reply> replies) {
+		this.replies = replies;
+	}
+
+	public Comment(String guestName, String guestEmail, String content, LocalDateTime createdAt, Post post,
+			List<Reply> replies) {
+		super();
+		this.guestName = guestName;
+		this.guestEmail = guestEmail;
+		this.content = content;
+		this.createdAt = createdAt;
+		this.post = post;
 		this.replies = replies;
 	}
 
 	@Override
 	public String toString() {
-		return "Comment [id=" + id + ", guestName=" + guestName + ", guestEmail=" + guestEmail + ", content=" + content
-				+ ", createdAt=" + createdAt + ", parent=" + parent + ", replies=" + replies + "]";
+		return "Comment [guestName=" + guestName + ", guestEmail=" + guestEmail + ", content=" + content
+				+ ", createdAt=" + createdAt + ", post=" + post + ", replies=" + replies + "]";
 	}
+
+	public Comment() {
+		super();
+	}
+    
+
+
     
 }
 

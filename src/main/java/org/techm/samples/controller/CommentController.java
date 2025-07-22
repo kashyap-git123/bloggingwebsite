@@ -1,7 +1,5 @@
 package org.techm.samples.controller;
  
-import java.util.List;
- 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
@@ -37,22 +35,4 @@ public class CommentController {
         return ResponseEntity.noContent().build(); // 204 No Content
     }
  
-    @PostMapping("/reply/{parentId}")
-    public ResponseEntity<Comment> replyToComment(@PathVariable Long parentId, @RequestBody Comment reply) {
-        Comment savedReply = commentService.replyToComment(parentId, reply);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedReply);
-    }
- 
-    @GetMapping("/post/{postId}")
-    public ResponseEntity<List<Comment>> getTopLevelComments(@PathVariable Long postId) {
-        List<Comment> comments = commentService.getTopLevelComments(postId);
-        return ResponseEntity.ok(comments);
-    }
- 
-    
-    @GetMapping("/replies/{parentId}")
-    public ResponseEntity<List<Comment>> getReplies(@PathVariable Long parentId) {
-        List<Comment> replies = commentService.getReplies(parentId);
-        return ResponseEntity.ok(replies);
-    }
 }

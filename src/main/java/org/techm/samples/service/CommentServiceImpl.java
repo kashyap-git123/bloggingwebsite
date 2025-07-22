@@ -51,26 +51,9 @@ public class CommentServiceImpl implements CommentService {
         }
         commentRepo.deleteById(commentId);
     }
+
+
+  
  
-    @Override
-    public Comment replyToComment(Long parentId, Comment reply) {
-        Comment parentComment = commentRepo.findById(parentId)
-            .orElseThrow(() -> new RuntimeException("Parent comment not found"));
- 
-        reply.setParent(parentComment);
-        reply.setPost(parentComment.getPost());
-        reply.setCreatedAt(LocalDateTime.now());
- 
-        return commentRepo.save(reply);
-    }
- 
-    @Override
-    public List<Comment> getTopLevelComments(Long postId) {
-        return commentRepo.findByPostIdAndParentIsNull(postId);
-    }
- 
-    @Override
-    public List<Comment> getReplies(Long parentId) {
-        return commentRepo.findByParentId(parentId);
-    }
+   
 }
