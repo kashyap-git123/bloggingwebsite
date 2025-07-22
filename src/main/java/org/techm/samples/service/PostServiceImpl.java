@@ -8,13 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.techm.samples.entity.Post;
 import org.techm.samples.entity.Status;
+import org.techm.samples.entity.User;
 import org.techm.samples.repository.PostRepository;
+import org.techm.samples.repository.UserRepository;
 
 @Service
 public class PostServiceImpl implements PostService {
+	
+	@Autowired
+	private UserRepository userRepository;
 
     @Autowired
     private PostRepository postRepository;
+    
 
     @Override
     public List<Post> getPublishedPosts() {
@@ -28,6 +34,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post createPost(Post post) {
+    	User author = userRepository.findById(post.getAuthor().getId())
+    		    .orElseThrow(() -> new RuntimeException("Author not found"));
+    		post.setAuthor(author);
         post.setCreatedAt(LocalDateTime.now());
         post.setStatus(Status.PUBLISHED);
         return postRepository.save(post);
