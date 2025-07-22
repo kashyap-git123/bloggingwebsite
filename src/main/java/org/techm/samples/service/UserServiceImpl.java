@@ -17,18 +17,24 @@ public class UserServiceImpl implements UserDetailsService,UserService {
     @Autowired 
     private UserRepository userRepo;
  
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public User userByUsername(String email) throws UsernameNotFoundException {
         User user = userRepo.findByEmail(email);
-        return new org.springframework.security.core.userdetails.User(
+        return user;
+        /*return new org.springframework.security.core.userdetails.User(
             user.getEmail(),
             user.getPassword(),
             List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
-        );
+        );*/
     }
  
     public User register(User user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         return userRepo.save(user);
     }
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
