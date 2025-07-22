@@ -9,4 +9,7 @@ public interface LikeService {
     void removeLike(Long likeId);
     boolean alreadyLiked(String guestEmail, Long postId);
     List<Like> getLikesByPost(Long postId);
+    List<Like> getAllLikes();
+
+    
 }

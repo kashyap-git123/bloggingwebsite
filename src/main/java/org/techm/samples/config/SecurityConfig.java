@@ -30,10 +30,16 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
+<<<<<<< HEAD
                 .requestMatchers("/blog/users/login", "/blog/users/register", "/css/**", "/js/**").permitAll()
                 .requestMatchers("/blog/users/blogger/**").hasRole("BLOGGER")
                 .requestMatchers("/blog/users/reader/**").hasRole("READER")
                 .anyRequest().authenticated()
+=======
+                .requestMatchers("/blog/**").permitAll()
+                .requestMatchers("/api/reply/**").permitAll()
+                .anyRequest().authenticated() 
+>>>>>>> branch 'master' of https://sandeepreddy04-admin@bitbucket.org/sandeepreddy04/bloggingwebsite.git
             )
             .formLogin(form -> form
                 .loginPage("/blog/users/login")

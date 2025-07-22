@@ -1,7 +1,7 @@
 package org.techm.samples.service;
 
 import java.util.List;
- 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.techm.samples.entity.Like;
@@ -35,4 +35,9 @@ public class LikeServiceImpl implements LikeService {
     public List<Like> getLikesByPost(Long postId) {
         return likeRepo.findByPostId(postId);
     }
+    @Override
+    public List<Like> getAllLikes() {
+        return likeRepo.findAll();
+    }
+
 }
