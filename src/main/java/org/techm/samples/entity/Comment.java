@@ -3,6 +3,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,14 +26,18 @@ public class Comment {
     private LocalDateTime createdAt;
 
     @ManyToOne
+    @JsonIgnoreProperties({"comments", "likes", "author"})
     private Post post;
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
+    @JsonIgnoreProperties({"replies", "post", "parent"})
     private Comment parent;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({"parent", "replies", "post"})
     private List<Comment> replies = new ArrayList<>();
+
 
 	public Long getId() {
 		return id;

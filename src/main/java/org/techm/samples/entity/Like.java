@@ -1,5 +1,7 @@
 package org.techm.samples.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,6 +18,7 @@ public class Like {
     private String guestEmail;
 
     @ManyToOne
+    @JsonIgnoreProperties({"comments", "likes", "author"})
     private Post post;
 
 	public Long getId() {
