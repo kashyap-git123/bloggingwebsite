@@ -20,6 +20,7 @@ public class ReplyServiceImpl implements ReplyService {
 	public Reply addReply(Reply reply) {
 		Long id1=reply.getComment().getId();
 		Comment cmt=commentrepo.findById(id1).orElse(null);
+		
 		reply.setComment(cmt);
 		replyRepo.save(reply);
 		return reply;

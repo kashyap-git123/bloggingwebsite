@@ -52,8 +52,16 @@ public class CommentServiceImpl implements CommentService {
         commentRepo.deleteById(commentId);
     }
 
+    @Override
+    public Comment getCommentById(Long id) {
+        return commentRepo.findById(id)
+            .orElseThrow(() -> new RuntimeException("Comment not found"));
+    }
+    @Override
+    public List<Comment> getAllComments() {
+        return commentRepo.findAll();
+    }
 
-  
- 
+
    
 }

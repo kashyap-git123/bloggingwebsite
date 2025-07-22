@@ -33,6 +33,19 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('BLOGGER')")
+    public ResponseEntity<List<Post>> getAllPosts() {
+        List<Post> allPosts = postService.getAllPosts();
+        return ResponseEntity.ok(allPosts);
+    }
+    @GetMapping("/user/{userId}")
+    @PreAuthorize("hasRole('BLOGGER')")
+    public ResponseEntity<List<Post>> getPostsByUser(@PathVariable Long userId) {
+        List<Post> userPosts = postService.getPostsByUserId(userId);
+        return ResponseEntity.ok(userPosts);
+    }
+
 
     @PostMapping
     @PreAuthorize("hasRole('BLOGGER')")

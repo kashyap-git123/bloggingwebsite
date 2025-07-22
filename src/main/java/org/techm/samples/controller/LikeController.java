@@ -40,4 +40,10 @@ public class LikeController {
         List<Like> likes = likeService.getLikesByPost(postId);
         return ResponseEntity.ok(likes);
     }
+    @GetMapping
+    public ResponseEntity<List<Like>> getAllLikes() {
+        List<Like> allLikes = likeService.getAllLikes();
+        return ResponseEntity.ok(allLikes);
+    }
+
 }

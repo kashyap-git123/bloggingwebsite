@@ -15,6 +15,7 @@ public class Reply {
     @GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private Long id;
 	@ManyToOne
+	@JsonIgnoreProperties({"replies", "parent", "post"})
 	private Comment comment;
 	
 	private String reply;
