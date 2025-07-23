@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>Your Drafts</title></head>
+<body>
+    <h2>Draft Posts</h2>
+    <ul>
+        <li th:each="post : ${drafts}">
+            <strong th:text="${post.title}">Draft Title</strong>
+        </li>
+    </ul>
+</body>
+</html>

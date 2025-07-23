@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>My Posts</title></head>
+<body>
+    <h2>Posts You've Created</h2>
+    <ul>
+        <li th:each="post : ${posts}">
+            <a th:href="@{'/posts/view/' + ${post.id}}">
+                <strong th:text="${post.title}">Post Title</strong>
+            </a>
+            —
+            <span th:text="${post.status}">Status</span>
+            [<a th:href="@{'/posts/edit/' + ${post.id}}">Edit</a>]
+            <form th:action="@{'/posts/delete/' + ${post.id}}" method="post" style="display:inline;">
+                <button type="submit" onclick="return confirm('Delete this post?')">Delete</button>
+            </form>
+        </li>
+    </ul>
+</body>
+</html>

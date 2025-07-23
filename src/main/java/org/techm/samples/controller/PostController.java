@@ -3,84 +3,94 @@ package org.techm.samples.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import org.techm.samples.entity.Post;
+import org.techm.samples.entity.Status;
+import org.techm.samples.entity.User;
 import org.techm.samples.service.PostService;
+import org.techm.samples.service.UserService;
 
-@RestController
-@RequestMapping("/blog/posts")
+@Controller
+@RequestMapping("/posts")
+@PreAuthorize("hasRole('BLOGGER')")
 public class PostController {
 
     @Autowired
     private PostService postService;
 
-    @GetMapping
-    public ResponseEntity<List<Post>> getPublishedPosts() {
-        List<Post> posts = postService.getPublishedPosts();
-        return ResponseEntity.ok(posts);
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("/create")
+    public String showCreateForm(Model model) {
+        model.addAttribute("post", new Post());
+        return "blogs/create-post";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Post> getPostById(@PathVariable Long id) {
+    @PostMapping("/create")
+    public String handleCreate(@ModelAttribute("post") Post post, Authentication auth) {
+        User user = userService.userByUsername(auth.getName());
+        post.setAuthor(user);
+        if (post.getStatus() == Status.DRAFT) {
+            postService.saveAsDraft(post);
+            return "redirect:/posts/drafts";
+        } else {
+            postService.createPost(post);
+            return "redirect:/posts/mine";
+        }
+    }
+
+    @GetMapping("/mine")
+    public String showMyPosts(Authentication auth, Model model) {
+        List<Post> posts = postService.getPublishedPostsByUserEmail(auth.getName());
+        model.addAttribute("posts", posts);
+        return "blogs/my-posts";
+    }
+
+    @GetMapping("/drafts")
+    public String showMyDrafts(Authentication auth, Model model) {
+        List<Post> drafts = postService.getDraftsByUserEmail(auth.getName());
+        model.addAttribute("drafts", drafts);
+        return "blogs/my-drafts";
+    }
+
+    @GetMapping("/edit/{id}")
+    public String editPostForm(@PathVariable Long id, Model model) {
         Post post = postService.getPostById(id);
-        if (post != null) {
-            return ResponseEntity.ok(post);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
-    @GetMapping("/all")
-    @PreAuthorize("hasRole('BLOGGER')")
-    public ResponseEntity<List<Post>> getAllPosts() {
-        List<Post> allPosts = postService.getAllPosts();
-        return ResponseEntity.ok(allPosts);
-    }
-    @GetMapping("/user/{userId}")
-    @PreAuthorize("hasRole('BLOGGER')")
-    public ResponseEntity<List<Post>> getPostsByUser(@PathVariable Long userId) {
-        List<Post> userPosts = postService.getPostsByUserId(userId);
-        return ResponseEntity.ok(userPosts);
+        model.addAttribute("post", post);
+        return "blogs/edit-post";
     }
 
-
-    @PostMapping
-    @PreAuthorize("hasRole('BLOGGER')")
-    public ResponseEntity<Post> createPost(@RequestBody Post post) {
-        Post createdPost = postService.createPost(post);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdPost);
+    @PostMapping("/edit/{id}")
+    public String handleEdit(@PathVariable Long id, @ModelAttribute Post updatedPost) {
+        postService.editPost(id, updatedPost);
+        return "redirect:/posts/mine";
     }
 
-    @PostMapping("/draft")
-    @PreAuthorize("hasRole('BLOGGER')")
-    public ResponseEntity<Post> saveAsDraft(@RequestBody Post post) {
-        Post draftPost = postService.saveAsDraft(post);
-        return ResponseEntity.status(HttpStatus.CREATED).body(draftPost);
+   /* @GetMapping("/delete/{id}")
+    public String deletePost(@PathVariable Long id) {
+        postService.deletePost(id);
+        return "redirect:/posts/mine";
+    }*/
+    @PostMapping("/delete/{id}")
+    public String deletePost(@PathVariable Long id) {
+    	System.out.println("DELETING POST ID: " + id);
+        //postService.deletePost(id);
+        boolean deleted = postService.deletePost(id);
+        System.out.println("Deleted status: " + deleted);
+        return "redirect:/posts/mine";
     }
 
-    @PutMapping("/edit/{id}")
-    @PreAuthorize("hasRole('BLOGGER')")
-    public ResponseEntity<Post> editPost(@PathVariable Long id, @RequestBody Post updatedPost) {
-        Post editedPost = postService.editPost(id, updatedPost);
-        if (editedPost != null) {
-            return ResponseEntity.ok(editedPost);
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    @GetMapping("/view/{id}")
+    public String viewPost(@PathVariable Long id, Model model) {
+        Post post = postService.getPostById(id);
+        model.addAttribute("post", post);
+        return "blogs/view-post"; // create this template
     }
 
-    @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('BLOGGER')")
-    public ResponseEntity<Void> deletePost(@PathVariable Long id) {
-        boolean isDeleted = postService.deletePost(id);
-        if (isDeleted) {
-            return ResponseEntity.noContent().build(); 
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-    }
 }
-
