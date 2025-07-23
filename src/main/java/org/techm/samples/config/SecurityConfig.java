@@ -76,7 +76,7 @@ public class SecurityConfig {
                 .requestMatchers("/blog/users/login", "/blog/users/register", "/css/**", "/js/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/blog/users/register").permitAll()
                 .requestMatchers("/blog/users/blogger/**").hasRole("BLOGGER")
-                .requestMatchers("/blog/users/reader/**").hasRole("GUEST")
+                .requestMatchers("/blog/users/guest/**").hasRole("GUEST")
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form

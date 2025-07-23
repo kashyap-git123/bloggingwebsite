@@ -73,10 +73,10 @@ public class UserController {
     }
 
     // Reader dashboard (only accessible to READER role)
-    @GetMapping("/reader/dashboard")
+    @GetMapping("/guest/dashboard")
     @PreAuthorize("hasRole('GUEST')")
     public String readerDashboard() {
-        return "blogs/reader-dashboard"; // create this template
+        return "blogs/guest-dashboard"; // create this template
     }
     
 
@@ -85,7 +85,7 @@ public class UserController {
         if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_BLOGGER"))) {
             return "redirect:/blog/users/blogger/dashboard";
         } else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_GUEST"))) {
-            return "redirect:/blog/users/reader/dashboard";
+            return "redirect:/blog/users/guest/dashboard";
         }
         return "redirect:/blog/users/login?error";
     }
