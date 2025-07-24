@@ -3,8 +3,8 @@ package org.techm.samples.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,22 +12,34 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.techm.samples.entity.Comment;
 import org.techm.samples.service.CommentService;
+import org.techm.samples.service.PostService;
  
-@RestController
+@Controller
 @RequestMapping("/blog/comments")
 public class CommentController {
  
     @Autowired
     private CommentService commentService;
+    @Autowired
+    private PostService postservice;
  
     @PostMapping("/add")
-    public ResponseEntity<Comment> addComment(@RequestBody Comment comment) {
-        Comment savedComment = commentService.addComment(comment);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedComment);
+    public String addComment(@RequestParam("postId") Long postId,
+                             @RequestParam("guestName") String name,
+                             @RequestParam("guestEmail") String email,
+                             @RequestParam("content") String content) {
+        Comment comment = new Comment();
+        comment.setPost(postservice.getPostById(postId));
+        comment.setGuestName(name);
+        comment.setGuestEmail(email);
+        comment.setContent(content);
+        commentService.saveComment(comment);
+        return "redirect:/posts/view/" + postId;
     }
+
  
     
     @PutMapping("/edit/{id}")

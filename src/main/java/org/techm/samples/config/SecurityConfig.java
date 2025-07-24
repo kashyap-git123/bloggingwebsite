@@ -86,6 +86,9 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/posts/mine", "/posts/edit/**", "/posts/drafts", "/posts/create").hasRole("BLOGGER")
                 .requestMatchers(HttpMethod.POST, "/posts/create", "/posts/edit/**", "/posts/delete/**", "/posts/publish/**").hasRole("BLOGGER")
                 .requestMatchers(HttpMethod.DELETE, "/posts/**").hasRole("BLOGGER")
+                .requestMatchers(HttpMethod.POST,"/blog/reply/**").hasRole("BLOGGER")
+                .requestMatchers(HttpMethod.POST,"/blog/likes/**").hasRole("GUEST")
+                .requestMatchers(HttpMethod.POST,"/blog/comments/**").hasRole("GUEST")
 
                 
                 .requestMatchers("/blog/users/guest/**").hasRole("GUEST")

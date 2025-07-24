@@ -6,10 +6,13 @@ import org.techm.samples.entity.Comment;
 
 public interface CommentService {
  
-    Comment addComment(Comment comment);
+	void addComment(Long postId, String guestName, String guestEmail, String content);
     Comment editComment(Long commentId, Comment updatedComment);
     void deleteComment(Long commentId);
     Comment getCommentById(Long id);
     List<Comment> getAllComments();
+    
+    void saveComment(Comment comment);
+    
 
 }

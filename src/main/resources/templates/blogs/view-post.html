@@ -1,4 +1,4 @@
-<!-- <!DOCTYPE html>
+<!-- <!-- <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head><title>View Post</title></head>
 <body>
@@ -7,7 +7,13 @@
     <p>Status: <span th:text="${post.status}">Status</span></p>
     <a th:href="@{/posts/mine}">Back to My Posts</a>
 </body>
-</html> -->
+</html>
+
+
+
+
+
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -16,8 +22,80 @@
 <body>
     <h2 th:text="${post.title}">Title</h2>
     <p th:text="${post.content}">Content</p>
+    <p>Likes: <span th:text="${likeCount}">0</span></p>
+    <p>Comments: <span th:text="${commentCount}">0</span></p>
     
-    <!-- ✅ Show correct "Back" link based on role -->
+    ✅ Show correct "Back" link based on role
+    <div>
+        <th:block th:if="${#authorization.expression('hasRole(''BLOGGER'')')}">
+            <a th:href="@{/posts/mine}">Back to My Posts</a>
+             <h3>All Comments</h3>
+    <div th:each="comment : ${comments}">
+        <p><strong th:text="${comment.guestName}">Name</strong> 
+           (<em th:text="${comment.guestEmail}">Email</em>)</p>
+        <p th:text="${comment.content}">Comment Text</p>
+
+        Replies
+        <div th:if="${comment.replies != null and !comment.replies.isEmpty()}">
+            <h5>Replies</h5>
+            <div th:each="reply : ${comment.replies}" style="margin-left: 20px;">
+                <p><strong th:text="${reply.reply}">Reply</strong></p>
+            </div>
+        </div>
+
+        Reply Form
+        <div style="margin-left: 20px; margin-top: 10px;">
+            <form th:action="@{/blog/reply/add}" method="post">
+    <input type="hidden" name="commentId" th:value="${comment.id}" />
+    <input type="text" name="replyText" placeholder="Write a reply..." required />
+    <button type="submit">Reply</button>
+</form>
+
+        </div>
+        <hr/>
+    </div>
+        </th:block>
+        <th:block th:if="${#authorization.expression('hasRole(''GUEST'')')}">
+        Like Button
+<form th:action="@{/blog/likes/add}" method="post" style="margin-top: 10px;">
+    <input type="hidden" name="postId" th:value="${post.id}" />
+    <button type="submit">👍 Like</button>
+</form>
+        
+        Add Comment Form
+<h3>Add a Comment</h3>
+<form th:action="@{/blog/comments/add}" method="post">
+    <input type="hidden" name="postId" th:value="${post.id}" />
+    <input type="text" name="guestName" placeholder="Your name" required />
+    <input type="email" name="guestEmail" placeholder="Your email" required />
+    <textarea name="content" placeholder="Write your comment..." required></textarea>
+    <br/>
+    <button type="submit">Submit Comment</button>
+</form>
+        
+            <a th:href="@{/posts/all}">Back to All Posts</a>
+        </th:block>
+    </div>
+</body>
+</html>
+ -->
+ 
+ 
+ 
+ 
+ 
+ <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View Post</title>
+</head>
+<body>
+    <h2 th:text="${post.title}">Title</h2>
+    <p th:text="${post.content}">Content</p>
+    <p>Likes: <span th:text="${likeCount}">0</span></p>
+    <p>Comments: <span th:text="${commentCount}">0</span></p>
+
+    <!-- Show correct "Back" link based on role -->
     <div>
         <th:block th:if="${#authorization.expression('hasRole(''BLOGGER'')')}">
             <a th:href="@{/posts/mine}">Back to My Posts</a>
@@ -26,5 +104,57 @@
             <a th:href="@{/posts/all}">Back to All Posts</a>
         </th:block>
     </div>
+
+    <!-- Like Button (GUEST role only) -->
+    <th:block th:if="${#authorization.expression('hasRole(''GUEST'')')}">
+        <form th:action="@{/blog/likes/add}" method="post" style="margin-top: 10px;">
+            <input type="hidden" name="postId" th:value="${post.id}" />
+            <button type="submit">👍 Like</button>
+        </form>
+    </th:block>
+
+    <!-- Add Comment Form (GUEST role only) -->
+    <th:block th:if="${#authorization.expression('hasRole(''GUEST'')')}">
+        <h3>Add a Comment</h3>
+        <form th:action="@{/blog/comments/add}" method="post">
+            <input type="hidden" name="postId" th:value="${post.id}" />
+            <input type="text" name="guestName" placeholder="Your name" required />
+            <input type="email" name="guestEmail" placeholder="Your email" required />
+            <textarea name="content" placeholder="Write your comment..." required></textarea>
+            <br/>
+            <button type="submit">Submit Comment</button>
+        </form>
+    </th:block>
+
+    <hr/>
+
+    <!-- Display All Comments -->
+    <h3>All Comments</h3>
+    <div th:each="comment : ${comments}">
+        <p><strong th:text="${comment.guestName}">Name</strong> 
+           (<em th:text="${comment.guestEmail}">Email</em>)</p>
+        <p th:text="${comment.content}">Comment Text</p>
+
+        <!-- Replies -->
+        <div th:if="${comment.replies != null and !comment.replies.isEmpty()}">
+            <h5>Replies</h5>
+            <div th:each="reply : ${comment.replies}" style="margin-left: 20px;">
+                <p><strong th:text="${reply.reply}">Reply</strong></p>
+            </div>
+        </div>
+
+        <!-- Reply Form (BLOGGER role only) -->
+        <th:block th:if="${#authorization.expression('hasRole(''BLOGGER'')')}">
+            <div style="margin-left: 20px; margin-top: 10px;">
+                <form th:action="@{/blog/reply/add}" method="post">
+                    <input type="hidden" name="commentId" th:value="${comment.id}" />
+                    <input type="text" name="replyText" placeholder="Write a reply..." required />
+                    <button type="submit">Reply</button>
+                </form>
+            </div>
+        </th:block>
+        <hr/>
+    </div>	
 </body>
 </html>
+ 

@@ -18,4 +18,6 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
     @Transactional
     @Query("DELETE FROM Like l WHERE l.post.id = :postId")
     void deleteByPostId(@Param("postId") Long postId);
+    
+    Like findByGuestEmailAndPostId(String guestEmail, Long postId);
 }

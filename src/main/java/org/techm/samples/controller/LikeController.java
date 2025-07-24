@@ -1,16 +1,21 @@
 package org.techm.samples.controller;
  
 import java.util.List;
- 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
- 
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.techm.samples.entity.Like;
 import org.techm.samples.service.LikeService;
  
-@RestController
+@Controller
 @RequestMapping("/blog/likes")
 public class LikeController {
  
@@ -19,14 +24,12 @@ public class LikeController {
  
     
     @PostMapping("/add")
-    public ResponseEntity<?> addLike(@RequestBody Like like) {
-        boolean alreadyLiked = likeService.alreadyLiked(like.getGuestEmail(), like.getPost().getId());
-        if (alreadyLiked) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("You have already liked this post.");
-        }
-        Like savedLike = likeService.addLike(like);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedLike);
+    public String addLike(@RequestParam("postId") Long postId, Authentication auth) {
+        String email = auth.getName(); // or get from input if guest
+        likeService.addLike(postId, email);
+        return "redirect:/posts/view/" + postId;
     }
+
  
     // Remove a like (optional use case)
     @DeleteMapping("/remove/{likeId}")
@@ -45,5 +48,13 @@ public class LikeController {
         List<Like> allLikes = likeService.getAllLikes();
         return ResponseEntity.ok(allLikes);
     }
+    
+    @PostMapping("/toggle")
+    public String toggleLike(@RequestParam Long postId, Authentication auth) {
+        String guestEmail = auth.getName(); // authenticated user's email
+        likeService.toggleLike(postId, guestEmail);
+        return "redirect:/posts/view/" + postId;
+    }
+
 
 }

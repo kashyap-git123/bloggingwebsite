@@ -98,11 +98,13 @@ public class Comment {
 		this.replies = replies;
 	}
 
-	@Override
-	public String toString() {
-		return "Comment [guestName=" + guestName + ", guestEmail=" + guestEmail + ", content=" + content
-				+ ", createdAt=" + createdAt + ", post=" + post + ", replies=" + replies + "]";
-	}
+	
+
+//	@Override
+//	public String toString() {
+//		return "Comment [id=" + id + ", guestName=" + guestName + ", guestEmail=" + guestEmail + ", content=" + content
+//				+ ", createdAt=" + createdAt + ", post=" + post + ", replies=" + replies + "]";
+//	}
 
 	public Comment() {
 		super();
