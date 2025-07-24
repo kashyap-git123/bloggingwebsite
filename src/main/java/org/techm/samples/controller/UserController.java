@@ -46,7 +46,7 @@ public class UserController {
 
     // Show login page
     @GetMapping("/login")
-    String loginPage() {
+    public String loginPage() {
         return "blogs/login"; // maps to templates/blogs/login.html
     }
 
