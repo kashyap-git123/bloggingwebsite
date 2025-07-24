@@ -71,20 +71,31 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
+            .csrf(csrf -> csrf.disable()) // CSRF protection disabled as per your setup
             .authorizeHttpRequests(auth -> auth
+                // ✅ Public access for login, registration, static files
                 .requestMatchers("/blog/users/login", "/blog/users/register", "/css/**", "/js/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/blog/users/register").permitAll()
+
+                // ✅ Public access to view published posts by all users
+                .requestMatchers(HttpMethod.GET, "/posts/all").permitAll()
+                .requestMatchers(HttpMethod.GET, "/posts/view/**").permitAll()
+
+                // ✅ Blogger dashboard & features
                 .requestMatchers("/blog/users/blogger/**").hasRole("BLOGGER")
+                .requestMatchers(HttpMethod.GET, "/posts/mine", "/posts/edit/**", "/posts/drafts", "/posts/create").hasRole("BLOGGER")
+                .requestMatchers(HttpMethod.POST, "/posts/create", "/posts/edit/**", "/posts/delete/**", "/posts/publish/**").hasRole("BLOGGER")
+                .requestMatchers(HttpMethod.DELETE, "/posts/**").hasRole("BLOGGER")
+
+                // ✅ Guest dashboard access
                 .requestMatchers("/blog/users/guest/**").hasRole("GUEST")
-                .requestMatchers(HttpMethod.POST,"/posts/**").hasRole("BLOGGER")
-                .requestMatchers(HttpMethod.GET,"/posts/**").hasRole("BLOGGER")
-                .requestMatchers(HttpMethod.DELETE,"/posts/**").hasRole("BLOGGER")
+
+                // 🚦 Catch all
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
                 .loginPage("/blog/users/login")
-                .loginProcessingUrl("/login") // ✅ Required for login to work
+                .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/blog/users/redirect", true)
                 .permitAll()
             )
@@ -96,12 +107,9 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // ✅ Add this bean
+    // ✅ Password encoder
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    
-
 }
-

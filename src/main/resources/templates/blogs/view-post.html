@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head><title>View Post</title></head>
 <body>
@@ -6,5 +6,26 @@
     <p th:text="${post.content}">Content</p>
     <p>Status: <span th:text="${post.status}">Status</span></p>
     <a th:href="@{/posts/mine}">Back to My Posts</a>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>View Post</title>
+</head>
+<body>
+    <h2 th:text="${post.title}">Title</h2>
+    <p th:text="${post.content}">Content</p>
+    <p>Status: <span th:text="${post.status}">Status</span></p>
+
+    <!-- ✅ Show correct "Back" link based on role -->
+    <div>
+        <th:block th:if="${#authorization.expression('hasRole(''BLOGGER'')')}">
+            <a th:href="@{/posts/mine}">Back to My Posts</a>
+        </th:block>
+        <th:block th:if="${#authorization.expression('hasRole(''GUEST'')')}">
+            <a th:href="@{/posts/all}">Back to All Posts</a>
+        </th:block>
+    </div>
 </body>
 </html>

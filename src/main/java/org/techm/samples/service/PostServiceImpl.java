@@ -90,6 +90,7 @@ package org.techm.samples.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -236,4 +237,15 @@ public class PostServiceImpl implements PostService {
         }
         return postRepository.findByAuthorIdAndStatus(user.getId(), Status.PUBLISHED);
     }
+    @Override
+    @Transactional
+    public void publishDraft(Long id) {
+        Optional<Post> postOpt = postRepository.findById(id);
+        postOpt.ifPresent(post -> {
+            post.setStatus(Status.PUBLISHED);
+            post.setUpdatedAt(LocalDateTime.now());
+            postRepository.save(post);
+        });
+    }
+
 }

@@ -1,12 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Your Drafts</title></head>
+<head><title>My Drafts</title></head>
 <body>
-    <h2>Draft Posts</h2>
+    <h2>Your Draft Posts</h2>
     <ul>
         <li th:each="post : ${drafts}">
-            <strong th:text="${post.title}">Draft Title</strong>
+            <!-- Title: View full draft -->
+            <a th:href="@{'/posts/view/' + ${post.id}}">
+                <strong th:text="${post.title}">Draft Title</strong>
+            </a>
+            —
+            <span th:text="${post.status}">Status</span>
+
+            <!-- Edit button -->
+            [<a th:href="@{'/posts/edit/' + ${post.id}}">Edit</a>]
+
+            <!-- Delete button -->
+            <form th:action="@{'/posts/delete/' + ${post.id}}" method="post" style="display:inline;">
+
+                <button type="submit" onclick="return confirm('Delete this draft?')">Delete</button>
+            </form>
+
+            <!-- Post (Publish) button -->
+            <form th:action="@{'/posts/publish/' + ${post.id}}" method="post" style="display:inline;">
+                
+                <button type="submit" onclick="return confirm('Publish this draft?')">Post</button>
+            </form>
         </li>
     </ul>
+    <div style="margin-top: 30px;">
+        <th:block th:if="${#authorization.expression('hasRole(''BLOGGER'')')}">
+            <a th:href="@{/blog/users/blogger/dashboard}">🔙 Back to Blogger Dashboard</a>
+        </th:block>
+    </div>
 </body>
 </html>

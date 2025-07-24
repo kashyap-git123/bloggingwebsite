@@ -15,4 +15,5 @@ public interface PostService {
     List<Post> getPostsByUserEmail(String email);
     List<Post> getDraftsByUserEmail(String email);
 	List<Post> getPublishedPostsByUserEmail(String email);
+	void publishDraft(Long id);
 }

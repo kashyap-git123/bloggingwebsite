@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head><title>All Blog Posts</title></head>
+<body>
+    <h2>Published Blog Posts</h2>
+    <ul>
+        <li th:each="post : ${posts}">
+            <a th:href="@{'/posts/view/' + ${post.id}}">
+                <strong th:text="${post.title}">Post Title</strong>
+            </a>
+      
+            <p><em>By: <span th:text="${post.author.name}">Author</span></em></p>
+        </li>
+    </ul>
+     <div style="margin-top: 30px;">
+        <th:block th:if="${#authorization.expression('hasRole(''GUEST'')')}">
+            <a th:href="@{/blog/users/guest/dashboard}">🔙 Back to Guest Dashboard</a>
+        </th:block>
+    </div>
+</body>
+</html>
+ 
+
+ 

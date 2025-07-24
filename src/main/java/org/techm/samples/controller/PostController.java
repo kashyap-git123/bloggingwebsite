@@ -92,5 +92,18 @@ public class PostController {
         model.addAttribute("post", post);
         return "blogs/view-post"; // create this template
     }
+    @PostMapping("/publish/{id}")
+    public String publishDraft(@PathVariable Long id) {
+        postService.publishDraft(id);
+        return "redirect:/posts/mine";
+    }
+    @GetMapping("/all")
+    @PreAuthorize("permitAll()") // If you want it open to guests, otherwise remove
+    public String showAllPosts(Model model) {
+        List<Post> posts = postService.getPublishedPosts(); // Retrieves all PUBLISHED posts
+        model.addAttribute("posts", posts);
+        return "blogs/all-posts"; // Create this template
+    }
+
 
 }
