@@ -106,7 +106,7 @@
     </div>
 
     <!-- Like Button (GUEST role only) -->
-    <th:block th:if="${#authorization.expression('hasRole(''GUEST'')')}">
+   <th:block th:if="${#authorization.expression('hasRole(''GUEST'')')}">
         <form th:action="@{/blog/likes/add}" method="post" style="margin-top: 10px;">
             <input type="hidden" name="postId" th:value="${post.id}" />
             <button type="submit">👍 Like</button>

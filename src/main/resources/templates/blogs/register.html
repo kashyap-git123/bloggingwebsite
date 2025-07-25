@@ -2,10 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Register</title>
+    <link rel="stylesheet" th:href="@{/css/register.css}">
     </head>
-    <body>
-<h2>Register</h2>
-    <form th:action="@{/blog/users/register}" th:object="${user}" method="post">
+    <!-- <body>
+    <form class="register-form" th:action="@{/blog/users/register}" th:object="${user}" method="post">
+    
+    <h2>Register</h2>
+    
         <label>Name:</label>
         <input type="text" th:field="*{name}" required><br>
 
@@ -24,7 +27,35 @@
         <button type="submit">Register</button>
     </form>
 
-    <p>Already have an account? <!-- <a th:href="@{/login}">Login here</a> -->
+    <p>Already have an account? <a th:href="@{/login}">Login here</a>
     <a th:href="@{/blog/users/login}">Login here</a></p>
+</body> -->
+
+<body>
+    <div class="form-container">
+        <form class="register-form" th:action="@{/blog/users/register}" th:object="${user}" method="post">
+            <h2>Register</h2>
+
+            <label>Name:</label>
+            <input type="text" th:field="*{name}" required>
+
+            <label>Email:</label>
+            <input type="email" th:field="*{email}" required>
+
+            <label>Password:</label>
+            <input type="password" th:field="*{password}" required>
+
+            <label>Role:</label>
+            <select th:field="*{role}">
+                <option value="BLOGGER">BLOGGER</option>
+                <option value="GUEST">GUEST</option>
+            </select>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <p>Already have an account? <a th:href="@{/blog/users/login}">Login here</a></p>
+    </div>
 </body>
+
 </html>

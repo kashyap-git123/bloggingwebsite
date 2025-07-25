@@ -2,8 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
-<body>
+<!-- <body>
     <h2>Login</h2>
     <form th:action="@{/login}" method="post">
         <label>Email:</label>
@@ -19,5 +20,27 @@
     <p th:if="${param.logout}">You have been logged out.</p>
 
     <p>Don't have an account? <a th:href="@{/blog/users/register}">Register here</a></p>
+</body> -->
+
+<body>
+    <div class="form-container">
+        <form class="login-form" th:action="@{/login}" method="post">
+            <h2>Login</h2>
+
+            <label>Email:</label>
+            <input type="text" name="username" required>
+
+            <label>Password:</label>
+            <input type="password" name="password" required>
+
+            <button type="submit">Login</button>
+
+            <p th:if="${param.error}">Invalid username or password.</p>
+            <p th:if="${param.logout}">You have been logged out.</p>
+
+            <p>Don't have an account? <a th:href="@{/blog/users/register}">Register here</a></p>
+        </form>
+    </div>
 </body>
+
 </html>

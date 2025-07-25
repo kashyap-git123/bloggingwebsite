@@ -20,4 +20,5 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
     void deleteByPostId(@Param("postId") Long postId);
     
     Like findByGuestEmailAndPostId(String guestEmail, Long postId);
+
 }

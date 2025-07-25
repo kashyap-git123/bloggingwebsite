@@ -114,6 +114,12 @@ public class PostController {
         model.addAttribute("commentCount", commentCount);
         model.addAttribute("comments", allComments);
         
+        String email= post.getAuthor().getEmail();
+boolean alreadyLiked = likeService.alreadyLiked(email, id);
+        model.addAttribute("alreadyLiked", alreadyLiked);
+
+
+        
         return "blogs/view-post";
     }
     
