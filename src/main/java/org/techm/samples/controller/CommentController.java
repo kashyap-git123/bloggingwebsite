@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.techm.samples.entity.Comment;
 import org.techm.samples.service.CommentService;
 import org.techm.samples.service.PostService;
+import org.techm.samples.service.UserService;
  
 @Controller
 @RequestMapping("/blog/comments")
@@ -25,20 +27,26 @@ public class CommentController {
     private CommentService commentService;
     @Autowired
     private PostService postservice;
+    @Autowired
+    private UserService userService;
  
     @PostMapping("/add")
     public String addComment(@RequestParam("postId") Long postId,
-                             @RequestParam("guestName") String name,
-                             @RequestParam("guestEmail") String email,
-                             @RequestParam("content") String content) {
+                             @RequestParam("content") String content,
+                             Authentication auth) {
+        String email = auth.getName(); // Assumes email is the username
+        String name = userService.userByUsername(email).getName(); // If your User entity has getName()
+
         Comment comment = new Comment();
         comment.setPost(postservice.getPostById(postId));
         comment.setGuestName(name);
         comment.setGuestEmail(email);
         comment.setContent(content);
+
         commentService.saveComment(comment);
         return "redirect:/posts/view/" + postId;
     }
+
 
  
     
