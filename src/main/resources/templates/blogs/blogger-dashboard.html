@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Blogger Dashboard</title>
@@ -10,7 +10,7 @@
 <div th:replace="/blogs/blogger-layout :: layout(content=~{::content}, pageTitle='Dashboard')">
     <div th:fragment="content">
 
-    <!-- <h2>Welcome, Blogger!</h2>
+    <h2>Welcome, Blogger!</h2>
 
     <p>You can manage your posts here:</p>
     <ul>
@@ -21,10 +21,78 @@
 
     <form th:action="@{/logout}" method="post">
         <button type="submit">Logout</button>
-    </form> -->
+    </form>
+    <p>
+    <h4>Blogging is more than just writing—it's about sharing your voice, building a community, and making an impact. Whether you're here to tell stories, share knowledge, or express your creativity, this space is designed to help you do it with ease and purpose.
+</h4><br/>
+<b>🌟 Why Blogging Matters</b>
+<h4>Blogging gives you the power to:</h4>
+<p>
+Share your thoughts and ideas with the world.
+Connect with readers who care about what you have to say.
+Build your personal brand or grow your business.
+Inspire, educate, and entertain—one post at a time.
+</p>
+✨ What You Can Do Here
+From this dashboard, you can:
+
+Create and manage your blog posts.
+Engage with your readers through comments and replies.
+Customize your blog’s look and feel.
+Stay organized with categories and tags.
+Keep track of your content and plan ahead.
+💡 Make It Yours
+Your blog is your space—make it reflect your personality, your passions, and your goals. Whether you're a seasoned writer or just starting out, every post is a step forward in your journey.
+    </p>
     
  </div>
  </div>
  
 </body>
 </html>
+ -->
+ <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Blogger Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/blogger.css}">
+</head>
+<body>
+
+<div th:replace="/blogs/blogger-layout :: layout(content=~{::content}, pageTitle='Dashboard')">
+    <div th:fragment="content">
+
+        <h2>Welcome to Your Blogger Dashboard</h2>
+
+        <p>
+            <strong>Blogging is more than just writing</strong>—it's about sharing your voice, building a community, and making an impact. Whether you're here to tell stories, share knowledge, or express your creativity, this space is designed to help you do it with ease and purpose.
+        </p>
+
+        <h3>🌟 Why Blogging Matters</h3>
+        <ul>
+            <li>Share your thoughts and ideas with the world.</li>
+            <li>Connect with readers who care about what you have to say.</li>
+            <li>Build your personal brand or grow your business.</li>
+            <li>Inspire, educate, and entertain—one post at a time.</li>
+        </ul>
+
+        <h3>✨ What You Can Do Here</h3>
+        <ul>
+            <li>Create and manage your blog posts.</li>
+            <li>Engage with your readers through comments and replies.</li>
+            <li>Customize your blog’s look and feel.</li>
+            <li>Stay organized with categories and tags.</li>
+            <li>Keep track of your content and plan ahead.</li>
+        </ul>
+
+        <h3>💡 Make It Yours</h3>
+        <p>
+            Your blog is your space—make it reflect your personality, your passions, and your goals. Whether you're a seasoned writer or just starting out, every post is a step forward in your journey.
+        </p>
+
+    </div>
+</div>
+
+</body>
+</html>
+ 
