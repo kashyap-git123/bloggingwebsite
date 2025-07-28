@@ -115,7 +115,7 @@
     </th:block>
 
     <!-- Add Comment Form (GUEST role only) -->
-    <th:block th:if="${#authorization.expression('hasRole(''GUEST'')')}">
+    <!-- <th:block th:if="${#authorization.expression('hasRole(''GUEST'')')}">
         <h3>Add a Comment</h3>
         <form th:action="@{/blog/comments/add}" method="post">
             <input type="hidden" name="postId" th:value="${post.id}" />
@@ -125,7 +125,21 @@
             <br/>
             <button type="submit">Submit Comment</button>
         </form>
-    </th:block>
+    </th:block> -->
+    <th:block th:if="${#authorization.expression('hasRole(''GUEST'')')}">
+    <h3>Add a Comment</h3>
+    <form th:action="@{/blog/comments/add}" method="post">
+        <input type="hidden" name="postId" th:value="${post.id}" />
+        
+        <!-- Optional: Display user name/email -->
+        <p>Commenting as: <strong th:text="${#authentication.name}">Username</strong></p>
+        
+        <textarea name="content" placeholder="Write your comment..." required></textarea>
+        <br/>
+        <button type="submit">Submit Comment</button>
+    </form>
+</th:block>
+ 
 
     <hr/>
 
