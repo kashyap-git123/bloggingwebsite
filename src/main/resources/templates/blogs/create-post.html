@@ -30,7 +30,7 @@
         <th:block th:if="${#authorization.expression('hasRole(''BLOGGER'')')}">
         
         
-            <a th:href="@{/blog/users/blogger/dashboard}">🔙 Back to Blogger Dashboard</a>
+            <a th:href="@{/blog/users/blogger/dashboard}"><button class="back-dashboard-button">🔙 Back to Blogger Dashboard</button></a>
         </th:block>
     </div>
 </body>

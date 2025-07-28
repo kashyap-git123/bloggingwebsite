@@ -110,3 +110,24 @@ h2 {
     letter-spacing: 0.5px;
 }
 
+/* Back to Dashboard Button */
+.back-dashboard-button {
+    background-color: #6c5ce7;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+}
+
+.back-dashboard-button:hover {
+    background-color: #5a4bcf;
+    transform: scale(1.03);
+}
+
+

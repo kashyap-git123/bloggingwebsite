@@ -1,96 +1,114 @@
 
-/* Login Page Styles */
+/* Import Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
-/* Center the form container */
-.form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-/* Ensure body doesn't interfere */
-body {
+/* Reset and base styles */
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-/* /* Optional: make sure form elements align */
-.login-form h2,
-.login-form label,
-.login-form input,
-.login-form button,
-.login-form p {
-    display: block;
-    width: 100%;
-    text-align: center;
-} */
-
 body {
-    background-color: #e9ecef;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9fafb;
+    font-family: 'Inter', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
 
+/* Form container */
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* Login form styles */
 form.login-form {
     background: #ffffff;
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 400px;
+    display: flex;
+    flex-direction: column;
 }
 
+/* Heading */
 h2 {
     text-align: center;
     margin-bottom: 1.5rem;
-    color: #222;
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: #374151;
 }
 
+/* Labels */
 label {
-    display: block;
     margin-bottom: 0.5rem;
-    color: #444;
+    color: #4b5563;
     font-weight: 500;
 }
 
+/* Inputs */
 input {
     width: 100%;
     padding: 0.6rem;
     margin-bottom: 1rem;
-    border: 1px solid #bbb;
+    border: 1px solid #d1d5db;
     border-radius: 4px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
 }
 
+input:focus {
+    border-color: #2563eb;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+/* Button */
 button {
     width: 100%;
     padding: 0.75rem;
-    background-color: #28a745;
+    background-color: #2563eb;
     color: white;
     border: none;
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #1d4ed8;
 }
 
+/* Paragraphs and links */
 p {
     text-align: center;
     margin-top: 1rem;
     font-size: 0.9rem;
+    color: #374151;
 }
 
 a {
-    color: #28a745;
+    color: #2563eb;
     text-decoration: none;
+    transition: text-decoration 0.3s ease;
 }
 
 a:hover {
     text-decoration: underline;
+}
+
+/* Responsive tweaks */
+@media (max-width: 480px) {
+    form.login-form {
+        padding: 1rem;
+    }
 }

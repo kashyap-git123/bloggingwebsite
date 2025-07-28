@@ -119,6 +119,20 @@ body {
     text-decoration: underline;
 }
 
+.draft-list button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.draft-list button:hover {
+    background-color: #b21f2d;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .status-actions {
@@ -131,3 +145,24 @@ body {
         width: 100%;
     }
 }
+
+/* Back to Dashboard Button */
+.back-dashboard-button {
+    background-color: #6c5ce7;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+}
+
+.back-dashboard-button:hover {
+    background-color: #5a4bcf;
+    transform: scale(1.03);
+}
+

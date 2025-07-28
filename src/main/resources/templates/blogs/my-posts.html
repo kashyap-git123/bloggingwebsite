@@ -14,8 +14,11 @@
             <a th:href="@{'/posts/view/' + ${post.id}}">
                 <strong th:text="${post.title}">Post Title</strong>
             </a>
-            <span th:text="${post.status}">Status</span>
-            [<a th:href="@{'/posts/edit/' + ${post.id}}">Edit</a>]
+            <!-- <span th:text="${post.status}">Status</span> -->
+            <a th:href="@{'/posts/edit/' + ${post.id}}"><button>Edit</button></a>
+            <!-- <form th:action="@{'/posts/edit/' + ${post.id}}" method="post" style="display:inline;">
+                <button type="submit" onclick="return confirm('Edit this draft?')">Edit</button>
+            </form> -->
             <form th:action="@{'/posts/delete/' + ${post.id}}" method="post" style="display:inline;">
                 <button type="submit" onclick="return confirm('Delete this post?')">Delete</button>
             </form>
@@ -25,7 +28,7 @@
     <div class="back-link" style="margin-top: 30px;">
         <th:block th:if="${#authorization.expression('hasRole(''BLOGGER'')')}">
        
-    <a th:href="@{/blog/users/blogger/dashboard}">🔙 Back to Blogger Dashboard</a>
+    <a th:href="@{/blog/users/blogger/dashboard}"><button class="back-dashboard-button">🔙 Back to Blogger Dashboard</button></a>
         
         </th:block>
     </div>

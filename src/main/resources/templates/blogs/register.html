@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Register</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/register.css}">
     </head>
     <!-- <body>
@@ -52,9 +53,11 @@
             </select>
 
             <button type="submit">Register</button>
+            <br>
+            <p>Already have an account? <a th:href="@{/blog/users/login}">Login here</a></p>
         </form>
 
-        <p>Already have an account? <a th:href="@{/blog/users/login}">Login here</a></p>
+        
     </div>
 </body>
 
