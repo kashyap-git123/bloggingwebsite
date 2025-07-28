@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Create Post</title></head>
+<head><title>Create Post</title>
+<link rel="stylesheet" th:href="@{/css/blogger.css}">
+<link rel="stylesheet" th:href="@{/css/create-post.css}">
+</head>
 <body>
+<div th:replace="/blogs/blogger-layout :: layout(content=~{::content}, pageTitle='Dashboard')">
+    <div th:fragment="content">
     <h2>Create a New Post</h2>
-    <form th:action="@{/posts/create}" th:object="${post}" method="post">
+    <form class="create-post-form"  th:action="@{/posts/create}" th:object="${post}" method="post">
         <label>Title:</label>
         <input type="text" th:field="*{title}" required><br>
 
@@ -18,5 +23,8 @@
 
         <button type="submit">Submit Post</button>
     </form>
+    
+    </div>
+    </div>
 </body>
 </html>

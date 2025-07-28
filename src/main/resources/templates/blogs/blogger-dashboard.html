@@ -2,9 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Blogger Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/blogger.css}">
+    
 </head>
 <body>
-    <h2>Welcome, Blogger!</h2>
+
+<div th:replace="/blogs/blogger-layout :: layout(content=~{::content}, pageTitle='Dashboard')">
+    <div th:fragment="content">
+
+    <!-- <h2>Welcome, Blogger!</h2>
 
     <p>You can manage your posts here:</p>
     <ul>
@@ -15,6 +21,10 @@
 
     <form th:action="@{/logout}" method="post">
         <button type="submit">Logout</button>
-    </form>
+    </form> -->
+    
+ </div>
+ </div>
+ 
 </body>
 </html>

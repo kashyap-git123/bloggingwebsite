@@ -1,0 +1,64 @@
+/* create-post.css */
+
+body {
+    /* font-family: Arial, sans-serif; */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    /* margin: 20px; */
+    color: #333;
+}
+
+h2 {
+    text-align: center;
+    color: #444;
+    margin-bottom: 30px;
+}
+
+.create-post-form {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 25px 30px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.create-post-form label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #555;
+}
+
+.create-post-form input[type="text"],
+.create-post-form textarea,
+.create-post-form select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.create-post-form textarea {
+    resize: vertical;
+}
+
+.create-post-form button {
+    margin-top: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.create-post-form button:hover {
+    background-color: #0056b3;
+}

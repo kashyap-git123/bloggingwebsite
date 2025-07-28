@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>My Drafts</title></head>
+<head><title>My Drafts</title>
+<link rel="stylesheet" th:href="@{/css/blogger.css}">
+<link rel="stylesheet" th:href="@{/css/my-drafts.css}">
+</head>
 <body>
+<div th:replace="/blogs/blogger-layout :: layout(content=~{::content}, pageTitle='Dashboard')">
+    <div th:fragment="content">
     <h2>Your Draft Posts</h2>
+    <div class="draft-list">
     <ul>
         <li th:each="post : ${drafts}">
             <!-- Title: View full draft -->
@@ -28,10 +34,15 @@
             </form>
         </li>
     </ul>
-    <div style="margin-top: 30px;">
+    </div>
+    <div class="back-link" style="margin-top: 30px;">
         <th:block th:if="${#authorization.expression('hasRole(''BLOGGER'')')}">
+        
+        
             <a th:href="@{/blog/users/blogger/dashboard}">🔙 Back to Blogger Dashboard</a>
         </th:block>
+    </div>
+    </div>
     </div>
 </body>
 </html>

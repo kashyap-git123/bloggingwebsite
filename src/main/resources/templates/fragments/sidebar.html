@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+    <div th:fragment="sidebar">
+    <nav class="sidebar">
+        <ul>
+            <li><a th:href="@{/blog/users/blogger/dashboard}">Dashboard</a></li>
+            <li><a th:href="@{/posts/create}">Create Post</a></li>
+            <li><a th:href="@{/posts/mine}">My Posts</a></li>
+            <li><a th:href="@{/posts/drafts}">Drafts</a></li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>
+<!-- sidebar fragment -->
+

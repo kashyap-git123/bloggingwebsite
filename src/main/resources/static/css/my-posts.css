@@ -1,0 +1,86 @@
+/* my-posts.css */
+
+body {
+    /* font-family: Arial, sans-serif; */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    /* margin: 20px; */
+    color: #333;
+}
+
+h2 {
+    text-align: center;
+    color: #444;
+    margin-bottom: 30px;
+}
+
+.post-list ul {
+    list-style-type: none;
+    padding: 0;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.post-list li {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    transition: box-shadow 0.3s ease;
+}
+
+.post-list li:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.post-list a {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.post-list a:hover {
+    text-decoration: underline;
+}
+
+.post-list strong {
+    font-size: 1.1em;
+}
+
+.post-list span {
+    font-style: italic;
+    color: #666;
+}
+
+.post-list form {
+    display: inline;
+}
+
+.post-list button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.9em;
+}
+
+.post-list button:hover {
+    background-color: #c82333;
+}
+
+.back-link {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.back-link a {
+    color: #555;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.back-link a:hover {
+    text-decoration: underline;
+}
