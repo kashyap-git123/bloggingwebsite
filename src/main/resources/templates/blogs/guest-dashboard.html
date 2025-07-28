@@ -2,18 +2,27 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Guest Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/guest.css}">
 </head>
 <body>
-    <h2>Welcome, Guest!</h2>
 
-    <p>Explore published blog posts:</p>
-    <ul>
-        <li><a th:href="@{/posts/all}">Browse All Posts</a></li>
-    </ul>
+<div th:replace="/blogs/guest-layout :: layout(content=~{::content}, pageTitle='Guest Dashboard')">
+    <div th:fragment="content">
 
-    <form th:action="@{/logout}" method="post">
-        <button type="submit">Logout</button>
-    </form>
+        <h2>Welcome, Guest!</h2>
+
+        <p>Explore published blog posts:</p>
+        <ul>
+            <li><a th:href="@{/posts/all}">Browse All Posts</a></li>
+        </ul>
+
+        <!-- <form th:action="@{/logout}" method="post">
+            <button type="submit" class="logout-button">Logout</button>
+        </form> -->
+
+    </div>
+</div>
+
 </body>
 </html>
 

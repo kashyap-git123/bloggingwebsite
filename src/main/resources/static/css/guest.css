@@ -1,0 +1,59 @@
+/* Guest Header Styling */
+.guest-header {
+    background-color: #6c757d;
+    color: white;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+/* Header Title */
+.guest-header h1 {
+    font-size: 1.5rem;
+    margin: 0;
+    word-break: break-word;
+}
+
+/* Logout Form */
+.guest-header form {
+    margin: 0;
+}
+
+/* Logout Button */
+.logout-button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
+}
+
+/* Responsive Header */
+@media (max-width: 768px) {
+    .guest-header {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: left;
+        gap: 0.5rem;
+    }
+
+    .guest-header h1 {
+        font-size: 1.25rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .logout-button {
+        align-self: flex-end;
+    }
+}
