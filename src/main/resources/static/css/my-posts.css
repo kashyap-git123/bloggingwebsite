@@ -1,39 +1,46 @@
-/* my-posts.css */
-
 body {
-    /* font-family: Arial, sans-serif; */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f9f9f9;
-    /* margin: 20px; */
+    background-color: #f0f2f5;
     color: #333;
+    margin: 0;
+    padding: 0;
 }
 
+/* Centered and elegant heading */
 h2 {
     text-align: center;
-    color: #444;
-    margin-bottom: 30px;
+    color: #333;
+    margin: 40px 0 20px;
+    font-size: 2rem;
 }
 
+/* Turn list into grid-like cards layout */
 .post-list ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
-    max-width: 800px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
+/* Stylish individual post cards */
 .post-list li {
     background-color: #fff;
     border: 1px solid #ddd;
-    padding: 15px 20px;
-    margin-bottom: 15px;
-    border-radius: 5px;
-    transition: box-shadow 0.3s ease;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
 .post-list li:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
 }
 
+/* Link and title enhancements */
 .post-list a {
     text-decoration: none;
     color: #007bff;
@@ -44,43 +51,62 @@ h2 {
 }
 
 .post-list strong {
-    font-size: 1.1em;
+    display: block;
+    font-size: 1.2em;
+    margin-bottom: 10px;
 }
 
+/* Post status style */
 .post-list span {
+    display: block;
     font-style: italic;
     color: #666;
+    margin-bottom: 10px;
 }
 
-.post-list form {
-    display: inline;
+/* Edit/Delete actions */
+.post-list form,
+.post-list a[href*="edit"] {
+    margin-right: 10px;
 }
 
 .post-list button {
     background-color: #dc3545;
     color: white;
     border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
+    padding: 6px 12px;
+    border-radius: 4px;
     cursor: pointer;
     font-size: 0.9em;
 }
 
 .post-list button:hover {
-    background-color: #c82333;
+    background-color: #b21f2d;
 }
 
+/* Back link centered */
 .back-link {
     text-align: center;
-    margin-top: 40px;
+    margin: 50px 0;
 }
 
 .back-link a {
     color: #555;
     text-decoration: none;
     font-weight: bold;
+    font-size: 1rem;
 }
 
 .back-link a:hover {
     text-decoration: underline;
 }
+.clean-light-heading {
+    text-align: center;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: #3498db; /* Soft light blue */
+    margin-bottom: 30px;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    letter-spacing: 0.5px;
+}
+

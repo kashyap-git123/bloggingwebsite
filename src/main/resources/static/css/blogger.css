@@ -1,110 +1,27 @@
-/* Reset and Base Styles */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+    font-family: 'Poppins', sans-serif;
+    background-color: #f4f7fc;
+    margin: 0;
+    padding: 0;
+    color: #333;
 }
 
-/* Header */
-/* .header {
-    background-color: #343a40;
+/* Header styling — Blue gradient & layout */
+.main-header {
+    background: linear-gradient(to right, #6c5ce7, #a29bfe);
     color: white;
-    padding: 1rem 2rem;
+    padding: 1.2rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
-    width: 100%;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-Header Elements
-.header h1 {
-    font-size: 1.5rem;
-} */
-.header {
-    background-color: #343a40;
-    color: white;
-    padding: 1rem 2rem;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    width: 100%;
-}
-
-.header h1 {
-    text-align: center;
-    width: 100%;
+.main-header h1 {
+    font-size: 1.8rem;
     margin: 0;
-    font-size: 1.5rem;
-}
-
-.header form {
-    justify-self: end;
-}
-
-
-.header form button {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.header form button:hover {
-    background-color: #c82333;
-}
-
-/* Layout Container */
-.layout-container {
-    display: flex;
-    flex: 1;
-    width: 100%;
-    overflow: hidden;
-}
-
-/* Sidebar */
-.sidebar {
-    width: 250px;
-    background-color: #343a40;
-    color: white;
-    padding: 1.5rem 1rem;
-    display: flex;
-    flex-direction: column;
-    border-right: 1px solid #dee2e6;
-}
-
-.sidebar h2 {
-    font-size: 1.25rem;
-    margin-bottom: 2rem;
-}
-
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
-
-.sidebar ul li {
-    margin-bottom: 1rem;
-}
-
-.sidebar ul li a {
-    color: #007bff;
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.sidebar ul li a:hover {
-    text-decoration: underline;
 }
 
 /* Logout Button */
@@ -113,79 +30,77 @@ Header Elements
     color: white;
     border: none;
     padding: 0.5rem 1rem;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
-    margin-top: auto;
-    width: 100%;
-    text-align: center;
+    font-weight: 600;
+    transition: background 0.3s ease;
 }
 
 .logout-button:hover {
     background-color: #c82333;
 }
 
-/* Main Content */
+/* Main content area */
 .main-content {
-    flex: 1;
     padding: 2rem;
-    background-color: #ffffff;
-    overflow-y: auto;
 }
 
-.main-content h2 {
-    color: #343a40;
-    margin-bottom: 1rem;
-}
-
-.main-content p {
-    color: #495057;
-    margin-bottom: 1rem;
-}
-
-.main-content ul {
-    padding-left: 1.5rem;
-}
-
-.main-content ul li {
+h2 {
+    font-size: 2rem;
     margin-bottom: 0.5rem;
+    color: #6c5ce7;
 }
 
-/* Form Button */
-.main-content form button {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
+p {
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    color: #555;
 }
 
-.main-content form button:hover {
-    background-color: #218838;
+/* Dashboard Links */
+.dashboard-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 400px;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .layout-container {
-        flex-direction: column;
-    }
+.dashboard-links li {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    transition: transform 0.2s ease;
+}
 
-    .sidebar {
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid #dee2e6;
-    }
+.dashboard-links li:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
 
-    .main-content {
-        padding: 1rem;
-    }
+.dashboard-links a {
+    display: block;
+    padding: 1rem;
+    text-decoration: none;
+    font-weight: 600;
+    color: #6c5ce7;
+    font-size: 1.1rem;
+}
 
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .header h1 {
-        margin-bottom: 0.5rem;
-    }
+.center-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+.dashboard-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 400px;
+    margin: 0 auto; /* ✅ Centers the entire list block */
+    text-align: center; /* ✅ Centers the link text inside */
 }

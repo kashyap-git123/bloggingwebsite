@@ -3,10 +3,10 @@
 <head></head>
 <body>
     <div th:fragment="header">
-        <div class="header">
-            <h1>Blogger Dashboard</h1>
+        <div class="main-header">
+            <h1>📘 Blogger Dashboard</h1>
             <form th:action="@{/logout}" method="post">
-                <button type="submit">Logout</button>
+                <button type="submit" class="logout-button">Logout</button>
             </form>
         </div>
     </div>

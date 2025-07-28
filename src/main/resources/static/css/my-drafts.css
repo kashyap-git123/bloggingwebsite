@@ -1,60 +1,73 @@
-
-/* General Styling */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f8f9fa;
-    /* margin: 0;
-    padding: 2rem; */
 }
 
-/* Draft List Container */
+.clean-light-heading {
+    text-align: center;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: #3498db;
+    margin-bottom: 30px;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    letter-spacing: 0.5px;
+}
+
+/* Draft List Layout */
 .draft-list {
-    background-color: #ffffff;
     padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-/* Draft Items */
 .draft-list ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
 }
 
 .draft-list ul li {
-    padding: 1rem;
-    border-bottom: 1px solid #dee2e6;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+    transition: all 0.2s ease;
 }
 
-.draft-list ul li:last-child {
-    border-bottom: none;
+.draft-list ul li:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
 }
 
 .draft-list strong {
-    font-size: 1.1rem;
+    display: block;
+    font-size: 1.2rem;
     color: #343a40;
+    margin-bottom: 0.5rem;
+    text-decoration: underline;
 }
 
-.draft-list span {
+.status-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.status-actions span {
     font-size: 0.9rem;
     color: #6c757d;
-    margin-left: 0.5rem;
+    margin-right: auto;
 }
 
-/* Action Buttons */
-.draft-list form,
-.draft-list a {
-    display: inline-block;
-    margin-left: 0.5rem;
-}
-
-.draft-list button,
-.draft-list a {
+/* Buttons */
+.status-actions a,
+.status-actions button {
     padding: 0.4rem 0.75rem;
     font-size: 0.85rem;
     border: none;
@@ -63,30 +76,30 @@ body {
     text-decoration: none;
 }
 
-.draft-list a {
+.status-actions a {
     background-color: #007bff;
     color: white;
 }
 
-.draft-list a:hover {
+.status-actions a:hover {
     background-color: #0056b3;
 }
 
-.draft-list form button {
+.status-actions button {
     background-color: #6c757d;
     color: white;
 }
 
-.draft-list form button:hover {
+.status-actions button:hover {
     background-color: #5a6268;
 }
 
 /* Publish Button */
-.draft-list form button:last-of-type {
+.status-actions form:last-of-type button {
     background-color: #28a745;
 }
 
-.draft-list form button:last-of-type:hover {
+.status-actions form:last-of-type button:hover {
     background-color: #218838;
 }
 
@@ -108,13 +121,13 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
-    .draft-list ul li {
+    .status-actions {
         flex-direction: column;
         align-items: flex-start;
     }
 
-    .draft-list form,
-    .draft-list a {
-        margin-top: 0.5rem;
+    .status-actions a,
+    .status-actions button {
+        width: 100%;
     }
 }

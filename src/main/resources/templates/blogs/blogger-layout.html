@@ -2,17 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="${pageTitle}">Blogger Panel</title>
-    
+    <link rel="stylesheet" th:href="@{/css/blogger.css}">
 </head>
 <body>
-    <div th:fragment="layout (content, pageTitle)" >
-        <header th:replace="/fragments/header :: header"></header>
-        <div class="layout-container">
-        <aside th:replace="/fragments/sidebar :: sidebar"></aside>
+    <div th:fragment="layout (content, pageTitle)">
+        <header th:replace="/fragments/blogger-header :: header"></header>
+
         <main class="main-content">
             <div th:replace="${content}"></div>
         </main>
-        </div>
     </div>
 </body>
 </html>

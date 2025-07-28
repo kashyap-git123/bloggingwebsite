@@ -26,5 +26,12 @@
     
     </div>
     </div>
+    <div class="back-link" style="margin-top: 30px;">
+        <th:block th:if="${#authorization.expression('hasRole(''BLOGGER'')')}">
+        
+        
+            <a th:href="@{/blog/users/blogger/dashboard}">🔙 Back to Blogger Dashboard</a>
+        </th:block>
+    </div>
 </body>
 </html>
