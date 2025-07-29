@@ -5,7 +5,7 @@ FROM openjdk:17
 WORKDIR /app
 
 # Copy the JAR file from the target directory to the container
-COPY target/BloggingWebsite-1.jar app.jar
+COPY target/BloggingWebsite-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose the port the application runs on
 EXPOSE 8080
