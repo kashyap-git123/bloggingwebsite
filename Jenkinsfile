@@ -6,7 +6,7 @@ pipeline {
         BRANCH = 'master'
         CREDENTIALS_ID = 'bdcdc521-1924-4aaa-b691-98eaad9af7ef'
         CATALINA_HOME = 'C:\\mysoftware\\apache-tomcat-11.0.9'
-        WAR_FILE = 'BloggingWebsite-1.war'
+        WAR_FILE = 'BloggingWebsite-0.0.1-SNAPSHOT.war'
     }
  
     stages {
