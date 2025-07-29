@@ -6,7 +6,6 @@ body {
     padding: 0;
 }
 
-/* Centered and elegant heading */
 h2 {
     text-align: center;
     color: #333;
@@ -14,7 +13,6 @@ h2 {
     font-size: 2rem;
 }
 
-/* Turn list into grid-like cards layout */
 .post-list ul {
     list-style: none;
     padding: 0;
@@ -25,7 +23,6 @@ h2 {
     margin: 0 auto;
 }
 
-/* Stylish individual post cards */
 .post-list li {
     background-color: #fff;
     border: 1px solid #ddd;
@@ -40,7 +37,6 @@ h2 {
     transform: translateY(-2px);
 }
 
-/* Link and title enhancements */
 .post-list a {
     text-decoration: none;
     color: #007bff;
@@ -56,7 +52,6 @@ h2 {
     margin-bottom: 10px;
 }
 
-/* Post status style */
 .post-list span {
     display: block;
     font-style: italic;
@@ -64,7 +59,6 @@ h2 {
     margin-bottom: 10px;
 }
 
-/* Edit/Delete actions */
 .post-list form,
 .post-list a[href*="edit"] {
     margin-right: 10px;
@@ -84,7 +78,6 @@ h2 {
     background-color: #b21f2d;
 }
 
-/* Back link centered */
 .back-link {
     text-align: center;
     margin: 50px 0;
@@ -104,13 +97,12 @@ h2 {
     text-align: center;
     font-size: 2.4rem;
     font-weight: 600;
-    color: #3498db; /* Soft light blue */
+    color: #3498db;
     margin-bottom: 30px;
     font-family: 'Segoe UI', Tahoma, sans-serif;
     letter-spacing: 0.5px;
 }
 
-/* Back to Dashboard Button */
 .back-dashboard-button {
     background-color: #6c5ce7;
     color: white;

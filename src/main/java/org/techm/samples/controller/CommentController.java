@@ -34,8 +34,8 @@ public class CommentController {
     public String addComment(@RequestParam("postId") Long postId,
                              @RequestParam("content") String content,
                              Authentication auth) {
-        String email = auth.getName(); // Assumes email is the username
-        String name = userService.userByUsername(email).getName(); // If your User entity has getName()
+        String email = auth.getName();
+        String name = userService.userByUsername(email).getName();
 
         Comment comment = new Comment();
         comment.setPost(postservice.getPostById(postId));
@@ -59,7 +59,7 @@ public class CommentController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
         commentService.deleteComment(id);
-        return ResponseEntity.noContent().build(); // 204 No Content
+        return ResponseEntity.noContent().build();
     }
     @GetMapping("/{id}")
     public ResponseEntity<Comment> getComment(@PathVariable Long id) {

@@ -75,7 +75,7 @@ class UserControllerTest {
         mockMvc.perform(post("/blog/users/register")
                 .param("email", "test@example.com")
                 .flashAttr("user", user)
-                .with(csrf()));  // ✅ This lineExpect(redirectedUrl("/blog/users/login"));
+                .with(csrf()));
     }
 
 

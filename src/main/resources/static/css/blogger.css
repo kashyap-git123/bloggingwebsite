@@ -8,7 +8,6 @@ body {
     color: #333;
 }
 
-/* Header styling — Blue gradient & layout */
 .main-header {
     background: linear-gradient(to right, #6c5ce7, #a29bfe);
     color: white;
@@ -24,7 +23,6 @@ body {
     margin: 0;
 }
 
-/* Logout Button */
 .logout-button {
     background-color: #dc3545;
     color: white;
@@ -40,7 +38,6 @@ body {
     background-color: #c82333;
 }
 
-/* Main content area */
 .main-content {
     padding: 2rem;
 }
@@ -57,7 +54,6 @@ p {
     color: #555;
 }
 
-/* Dashboard Links */
 .dashboard-links {
     list-style: none;
     padding: 0;
@@ -101,6 +97,6 @@ p {
     flex-direction: column;
     gap: 1rem;
     max-width: 400px;
-    margin: 0 auto; /* ✅ Centers the entire list block */
-    text-align: center; /* ✅ Centers the link text inside */
+    margin: 0 auto;
+    text-align: center;
 }

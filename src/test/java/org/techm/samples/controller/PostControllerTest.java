@@ -107,7 +107,7 @@ class PostControllerTest {
 
 
 
-mockMvc.perform(post("/posts/delete/1").with(csrf()))  // ✅ Add .with(csrf())
+mockMvc.perform(post("/posts/delete/1").with(csrf()))
            .andExpect(status().is3xxRedirection())
            .andExpect(redirectedUrl("/posts/mine"));
 

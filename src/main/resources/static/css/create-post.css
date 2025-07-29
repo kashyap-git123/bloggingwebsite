@@ -1,5 +1,3 @@
-/* create-post.css */
-
 body {
     /* font-family: Arial, sans-serif; */
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -63,8 +61,6 @@ h2 {
     background-color: #0056b3;
 }
 
-
-/* Back to Dashboard Button */
 .back-dashboard-button {
     background-color: #6c5ce7;
     color: white;

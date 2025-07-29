@@ -130,11 +130,11 @@ boolean alreadyLiked = likeService.alreadyLiked(email, id);
         return "redirect:/posts/mine";
     }
     @GetMapping("/all")
-    @PreAuthorize("permitAll()") // If you want it open to guests, otherwise remove
+    @PreAuthorize("permitAll()")
     public String showAllPosts(Model model) {
-        List<Post> posts = postService.getPublishedPosts(); // Retrieves all PUBLISHED posts
+        List<Post> posts = postService.getPublishedPosts();
         model.addAttribute("posts", posts);
-        return "blogs/all-posts"; // Create this template
+        return "blogs/all-posts";
     }
 
 

@@ -1,4 +1,4 @@
-/* Google Font Import */
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 body {
@@ -9,7 +9,6 @@ body {
     color: #333;
 }
 
-/* Guest Header Styling */
 .guest-header {
     background: linear-gradient(to right, #6c5ce7, #a29bfe);
     color: white;
@@ -32,7 +31,6 @@ body {
     content: "👤 ";
 }
 
-/* Logout Button */
 .logout-button {
     background-color: #dc3545;
     color: white;
@@ -51,7 +49,6 @@ body {
     transform: scale(1.05);
 }
 
-/* Responsive Header */
 @media (max-width: 768px) {
     .guest-header {
         flex-direction: column;
@@ -70,12 +67,10 @@ body {
     }
 }
 
-/* Main Content */
 .main-content {
     padding: 2rem;
 }
 
-/* Content Typography */
 h2 {
     font-size: 2rem;
     color: #343a40;
@@ -87,7 +82,6 @@ p {
     color: #555;
 }
 
-/* Post Cards Styling */
 ul {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -123,7 +117,6 @@ li p {
     margin-top: 0.3rem;
 }
 
-/* Back Link */
 div a {
     text-decoration: none;
     font-weight: 600;

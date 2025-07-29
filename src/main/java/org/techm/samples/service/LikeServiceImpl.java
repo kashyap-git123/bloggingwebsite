@@ -60,14 +60,14 @@ public class LikeServiceImpl implements LikeService {
         if (alreadyLiked) {
             Like existingLike = likeRepo.findByGuestEmailAndPostId(guestEmail, postId);
             likeRepo.delete(existingLike);
-            return false; // like removed
+            return false;
         } else {
             Post post = postRepo.findById(postId).orElseThrow(() -> new RuntimeException("Post not found"));
             Like newLike = new Like();
             newLike.setGuestEmail(guestEmail);
             newLike.setPost(post);
             likeRepo.save(newLike);
-            return true; // like added
+            return true;
         }
     }
 

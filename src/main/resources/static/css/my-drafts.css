@@ -13,7 +13,6 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* Draft List Layout */
 .draft-list {
     padding: 1.5rem;
     max-width: 1200px;
@@ -65,7 +64,7 @@ body {
     margin-right: auto;
 }
 
-/* Buttons */
+
 .status-actions a,
 .status-actions button {
     padding: 0.4rem 0.75rem;
@@ -94,7 +93,6 @@ body {
     background-color: #5a6268;
 }
 
-/* Publish Button */
 .status-actions form:last-of-type button {
     background-color: #28a745;
 }
@@ -103,7 +101,6 @@ body {
     background-color: #218838;
 }
 
-/* Back Link */
 .back-link {
     margin-top: 2rem;
     text-align: center;
@@ -133,7 +130,7 @@ body {
     background-color: #b21f2d;
 }
 
-/* Responsive */
+
 @media (max-width: 768px) {
     .status-actions {
         flex-direction: column;
@@ -146,7 +143,6 @@ body {
     }
 }
 
-/* Back to Dashboard Button */
 .back-dashboard-button {
     background-color: #6c5ce7;
     color: white;

@@ -25,13 +25,12 @@ public class LikeController {
     
     @PostMapping("/add")
     public String addLike(@RequestParam("postId") Long postId, Authentication auth) {
-        String email = auth.getName(); // or get from input if guest
+        String email = auth.getName();
         likeService.addLike(postId, email);
         return "redirect:/posts/view/" + postId;
     }
 
  
-    // Remove a like (optional use case)
     @DeleteMapping("/remove/{likeId}")
     public ResponseEntity<Void> removeLike(@PathVariable Long likeId) {
         likeService.removeLike(likeId);
@@ -51,7 +50,7 @@ public class LikeController {
     
     @PostMapping("/toggle")
     public String toggleLike(@RequestParam Long postId, Authentication auth) {
-        String guestEmail = auth.getName(); // authenticated user's email
+        String guestEmail = auth.getName();
         likeService.toggleLike(postId, guestEmail);
         return "redirect:/posts/view/" + postId;
     }

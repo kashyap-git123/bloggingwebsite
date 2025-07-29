@@ -9,10 +9,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 //import ResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import java.util.Collections;
 
@@ -24,8 +24,10 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.techm.samples.entity.Comment;
 import org.techm.samples.entity.Post;
+import org.techm.samples.entity.User;
 import org.techm.samples.service.CommentService;
 import org.techm.samples.service.PostService;
+import org.techm.samples.service.UserService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -40,6 +42,9 @@ class CommentControllerTest {
 
     @MockitoBean
     private PostService postService;
+    
+    @MockitoBean
+    private UserService userService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -95,12 +100,16 @@ class CommentControllerTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "john_doe")
     void testAddComment() throws Exception {
         Post post = new Post();
         post.setId(1L);
 
+        User user = new User();
+        user.setName("John Doe");
+
         when(postService.getPostById(1L)).thenReturn(post);
+        when(userService.userByUsername("john_doe")).thenReturn(user);
 
         mockMvc.perform(post("/blog/comments/add")
                 .param("postId", "1")
@@ -113,4 +122,5 @@ class CommentControllerTest {
 
         verify(commentService).saveComment(any(Comment.class));
     }
+
 }
