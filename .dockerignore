@@ -1,0 +1,14 @@
+# Ignore unnecessary folders but keep target/
+.logs/
+.idea/
+.vscode/
+node_modules/
+*.iml
+*.ipr
+*.iws
+*.class
+*.jar
+*.war
+
+# Don't ignore target/ so Docker can copy the JAR
+!target/
