@@ -20,7 +20,7 @@ services:
       - "8080:8080"
     depends_on:
       - db
-    network_mode: "host"  # This allows 'localhost' to work inside the container
+    network_mode: "host"  # Needed if your app uses localhost for DB
 
 volumes:
   db_data:
