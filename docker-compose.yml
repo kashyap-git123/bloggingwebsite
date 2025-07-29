@@ -20,7 +20,10 @@ services:
       - "8080:8080"
     depends_on:
       - db
-    network_mode: "host"  # Needed if your app uses localhost for DB
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/blogging_db?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
 
 volumes:
   db_data:
