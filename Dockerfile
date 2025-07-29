@@ -12,5 +12,12 @@ WORKDIR /app
 
 COPY --from=build /app/target/BloggingWebsite-0.0.1-SNAPSHOT.jar app.jar
 
+COPY wait-for-db.sh /wait-for-db.sh
+RUN chmod +x /wait-for-db.sh
+
+
+
+
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["sh", "/wait-for-db.sh"]
+#ENTRYPOINT ["java", "-jar", "app.jar"]
