@@ -1,36 +1,25 @@
-version: "3.8"
-
+version: '3.8'
 services:
-
-  db:
+  blogging_db:
     image: mysql:8.0
-    container_name: blogging_db
-    restart: unless-stopped
-    environment:
-      MYSQL_DATABASE: blogging_db
-      MYSQL_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: blogging
     volumes:
       - db_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-proot"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: blogging_app
+  blogging_app:
+    image: bloggingwebsite-app
     depends_on:
-      db:
-        condition: service_healthy
+      - blogging_db
     ports:
       - "8080:8080"
-    volumes:
-      - ./logs:/app/logs
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://blogging_db:3306/blogging
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
 
 volumes:
   db_data:
