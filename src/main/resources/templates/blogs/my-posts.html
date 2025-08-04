@@ -15,6 +15,14 @@
                 <strong th:text="${post.title}">Post Title</strong>
             </a>
             <!-- <span th:text="${post.status}">Status</span> -->
+            <p>
+<em th:if="${post.updatedAt != null}">
+    Updated on: <span th:text="${#temporals.format(post.updatedAt, 'dd MMM yyyy HH:mm')}">Date</span>
+</em>
+<em th:unless="${post.updatedAt != null}">
+    Created on: <span th:text="${#temporals.format(post.createdAt, 'dd MMM yyyy HH:mm')}">Date</span>
+</em>
+        </p>
             <a th:href="@{'/posts/edit/' + ${post.id}}"><button>Edit</button></a>
             <!-- <form th:action="@{'/posts/edit/' + ${post.id}}" method="post" style="display:inline;">
                 <button type="submit" onclick="return confirm('Edit this draft?')">Edit</button>

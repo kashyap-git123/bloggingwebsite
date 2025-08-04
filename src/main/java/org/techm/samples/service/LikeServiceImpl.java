@@ -1,6 +1,7 @@
 package org.techm.samples.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,10 +45,11 @@ public class LikeServiceImpl implements LikeService {
         likeRepo.deleteById(likeId);
     }
  
-    @Override
+   
+   /*@Override
     public boolean alreadyLiked(String guestEmail, Long postId) {
         return likeRepo.existsByGuestEmailAndPostId(guestEmail, postId);
-    }
+    }*/
  
     @Override
     public List<Like> getAllLikes() {
@@ -55,7 +57,7 @@ public class LikeServiceImpl implements LikeService {
     }
 
     
-    public boolean toggleLike(Long postId, String guestEmail) {
+   /* public boolean toggleLike(Long postId, String guestEmail) {
         boolean alreadyLiked = likeRepo.existsByGuestEmailAndPostId(guestEmail, postId);
         if (alreadyLiked) {
             Like existingLike = likeRepo.findByGuestEmailAndPostId(guestEmail, postId);
@@ -69,7 +71,20 @@ public class LikeServiceImpl implements LikeService {
             likeRepo.save(newLike);
             return true;
         }
+    }*/
+    public void removeLikeByEmailAndPost(String email, Long postId) {
+        Optional<Like> like = likeRepo.findByGuestEmailAndPostId(email, postId);
+        like.ifPresent(likeRepo::delete);
     }
+    public boolean alreadyLiked(String email, Long postId) {
+        return likeRepo.findByGuestEmailAndPostId(email, postId).isPresent();
+    }
+
+	@Override
+	public boolean toggleLike(Long postId, String guestEmail) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 
 }

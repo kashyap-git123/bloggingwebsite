@@ -1,5 +1,9 @@
 package org.techm.samples.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.techm.samples.entity.Comment;
 import org.techm.samples.entity.Post;
 import org.techm.samples.entity.Status;
@@ -80,6 +85,7 @@ public class PostController {
 
     @PostMapping("/edit/{id}")
     public String handleEdit(@PathVariable Long id, @ModelAttribute Post updatedPost) {
+    	updatedPost.setUpdatedAt(LocalDateTime.now());
         postService.editPost(id, updatedPost);
         return "redirect:/posts/mine";
     }
@@ -123,6 +129,7 @@ boolean alreadyLiked = likeService.alreadyLiked(email, id);
         return "blogs/view-post";
     }
     
+    
     @PostMapping("/publish/{id}")
     public String publishDraft(@PathVariable Long id) {
         postService.publishDraft(id);
@@ -135,17 +142,24 @@ boolean alreadyLiked = likeService.alreadyLiked(email, id);
         model.addAttribute("posts", posts);
         return "blogs/all-posts";
     }
-    @GetMapping("/others")
-    @PreAuthorize("hasRole('BLOGGER')")
-    public String showOtherBloggersPosts(Model model, Authentication auth) {
-        String email = auth.getName();
-        List<Post> posts = postService.getPublishedPosts().stream()
-            .filter(post -> !post.getAuthor().getEmail().equals(email))
-            .toList();
-        model.addAttribute("posts", posts);
-        return "blogs/explore-posts";
-    }
+    @GetMapping("/search")
+    @PreAuthorize("permitAll()")
+    public String searchPosts(@RequestParam("query") String query, Model model) {
+        List<Post> results;
 
+        // Try parsing query as a date
+        try {
+            LocalDate date = LocalDate.parse(query, DateTimeFormatter.ofPattern("dd MMM yyyy"));
+            results = postService.getPostsByDate(date);
+        } catch (DateTimeParseException e) {
+            // If not a date, treat as blogger name
+            results = postService.getPostsByAuthorName(query);
+        }
+
+        model.addAttribute("posts", results);
+        model.addAttribute("searchQuery", query);
+        return "blogs/all-posts";
+    }
 
 
 }

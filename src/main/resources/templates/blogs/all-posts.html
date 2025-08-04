@@ -10,6 +10,12 @@
     <div th:fragment="content">
     </div>
     </div>
+    <form th:action="@{/posts/search}" method="get" class="search-form">
+    <input type="text" name="query" class="search-input" placeholder="Search by blogger name or date (e.g. 04 Aug 2025)" required />
+    <button type="submit" class="search-button">🔍 Search</button>
+</form>
+
+    
     <h2>All Posts</h2>
     <ul>
         <li th:each="post : ${posts}">
@@ -17,7 +23,20 @@
                 <strong th:text="${post.title}">Post Title</strong>
             </a>
       
-            <p><em>By: <span th:text="${post.author.name}">Author</span></em></p>
+            <p>
+    <em>By: <span th:text="${post.author.name}">Author</span></em>
+    <br>
+    <em>Created on: 
+        <span th:text="${#temporals.format(post.createdAt, 'dd MMM yyyy HH:mm')}">Date</span>
+    </em>
+    <br>
+    <th:block th:if="${post.updatedAt != null}">
+        <em>Updated on: 
+            <span th:text="${#temporals.format(post.updatedAt, 'dd MMM yyyy HH:mm')}">Date</span>
+        </em>
+    </th:block>
+</p>
+
         </li>
     </ul>
     
@@ -29,5 +48,3 @@
 </body>
 </html>
 
-
- 

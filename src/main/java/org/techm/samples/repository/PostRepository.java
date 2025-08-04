@@ -1,5 +1,6 @@
 package org.techm.samples.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,6 +25,11 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	void deleteByPostId(@Param("postId") Long postId);*/
 	@Query("DELETE FROM Post p WHERE p.id = :id")
 	void deleteByCustomId(@Param("id") Long id);
+	
+	List<Post> findByAuthorNameContainingIgnoreCase(String name);
+
+	List<Post> findByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
+
 
     
 }
