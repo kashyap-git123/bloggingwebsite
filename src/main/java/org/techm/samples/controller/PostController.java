@@ -123,7 +123,6 @@ boolean alreadyLiked = likeService.alreadyLiked(email, id);
         return "blogs/view-post";
     }
     
-    
     @PostMapping("/publish/{id}")
     public String publishDraft(@PathVariable Long id) {
         postService.publishDraft(id);
