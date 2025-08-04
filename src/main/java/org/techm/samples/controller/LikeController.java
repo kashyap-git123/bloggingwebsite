@@ -54,6 +54,6 @@ public class LikeController {
         likeService.toggleLike(postId, guestEmail);
         return "redirect:/posts/view/" + postId;
     }
-
+    
 
 }

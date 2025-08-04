@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600&display=swap');
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.clean-light-heading {
+    text-align: center;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: #3498db;
+    margin: 40px 0 30px;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    letter-spacing: 0.5px;
+}
+
+/* Updated styling for .post-list to match listing format */
+.post-list {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 1rem;
+}
+
+.post-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.post-list ul li {
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    padding: 16px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.post-list ul li:hover {
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.post-list strong {
+    font-size: 1.2rem;
+    color: #007bff;
+    display: block;
+    margin-bottom: 6px;
+    text-decoration: underline;
+}
+
+.post-list span {
+    font-style: italic;
+    color: #666;
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.post-list a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.post-list a:hover {
+    text-decoration: underline;
+}
+
+/* Back link section */
+.back-link {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.back-link a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.back-link a:hover {
+    text-decoration: underline;
+}
+
+/* Dashboard button consistency */
+.back-dashboard-button {
+    background-color: #6c5ce7;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    font-family: 'Poppins', sans-serif;
+}
+
+.back-dashboard-button:hover {
+    background-color: #5a4bcf;
+    transform: scale(1.03);
+}
+
+@media (max-width: 768px) {
+    .post-list {
+        padding: 0 1rem;
+    }
+
+    .post-list ul li {
+        padding: 14px;
+    }
+}

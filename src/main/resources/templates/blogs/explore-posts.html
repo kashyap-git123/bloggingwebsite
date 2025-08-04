@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Explore Bloggers' Posts</title>
+    <link rel="stylesheet" th:href="@{/css/blogger.css}">
+    <link rel="stylesheet" th:href="@{/css/explore-posts.css}">
+</head>
+<body>
+
+<div th:replace="/blogs/blogger-layout :: layout(content=~{::content}, pageTitle='Dashboard')">
+    <div th:fragment="content">
+        <h2 class="clean-light-heading">Explore Other Bloggers' Posts</h2>
+        <div class="post-list">
+            <ul>
+                <li th:each="post : ${posts}">
+                    <a th:href="@{'/posts/view/' + ${post.id}}">
+                        <strong th:text="${post.title}">Post Title</strong>
+                    </a>
+                    <span th:text="'By: ' + ${post.author.name}">Author</span>
+                    <th:block th:if="${post.author.email == #authentication.name}">
+                        <span style="font-size: 0.85rem; color: gray;">(Your post)</span>
+                    </th:block>
+                </li>
+            </ul>
+        </div>
+
+        <div class="back-link" style="margin-top: 30px;">
+            <a th:href="@{/blog/users/blogger/dashboard}">
+                <button class="back-dashboard-button">🔙 Back to Blogger Dashboard</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

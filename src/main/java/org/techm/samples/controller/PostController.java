@@ -136,6 +136,17 @@ boolean alreadyLiked = likeService.alreadyLiked(email, id);
         model.addAttribute("posts", posts);
         return "blogs/all-posts";
     }
+    @GetMapping("/others")
+    @PreAuthorize("hasRole('BLOGGER')")
+    public String showOtherBloggersPosts(Model model, Authentication auth) {
+        String email = auth.getName();
+        List<Post> posts = postService.getPublishedPosts().stream()
+            .filter(post -> !post.getAuthor().getEmail().equals(email))
+            .toList();
+        model.addAttribute("posts", posts);
+        return "blogs/explore-posts";
+    }
+
 
 
 }
