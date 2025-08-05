@@ -1,33 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>All Posts</title>
-<link rel="stylesheet" th:href="@{/css/guest.css}">
+    <title>All Posts</title>
+    <link rel="stylesheet" th:href="@{/css/guest.css}">
 </head>
 <body>
 
 <div th:replace="/blogs/guest-layout :: layout(content=~{::content}, pageTitle='Guest Dashboard')">
     <div th:fragment="content">
     </div>
-    </div>
-    <h2>All Posts</h2>
+</div>
+
+<form th:action="@{/posts/search}" method="get" class="search-form">
+    <input type="text" name="query" class="search-input" placeholder="Search by blogger name or date (e.g. 04 Aug 2025)" required />
+    <button type="submit" class="search-button">🔍 Search</button>
+</form>
+
+<h2>All Posts</h2>
+<ul>
+    <li th:each="post : ${posts}">
+        <a th:href="@{'/posts/view/' + ${post.id}}">
+            <strong th:text="${post.title}">Post Title</strong>
+        </a>
+        <p>
+            <em>By: <span th:text="${post.author.name}">Author</span></em><br>
+            <em>Created on: 
+                <span th:text="${#temporals.format(post.createdAt, 'dd MMM yyyy HH:mm')}">Date</span>
+            </em><br>
+            <th:block th:if="${post.updatedAt != null}">
+                <em>Updated on: 
+                    <span th:text="${#temporals.format(post.updatedAt, 'dd MMM yyyy HH:mm')}">Date</span>
+                </em>
+            </th:block>
+        </p>
+    </li>
+</ul>
+
+<!-- 🔄 Pagination Controls -->
+<div class="pagination" style="margin-top: 20px;">
     <ul>
-        <li th:each="post : ${posts}">
-            <a th:href="@{'/posts/view/' + ${post.id}}">
-                <strong th:text="${post.title}">Post Title</strong>
-            </a>
-      
-            <p><em>By: <span th:text="${post.author.name}">Author</span></em></p>
+        <li th:if="${currentPage > 0}">
+            <a th:href="@{/posts/all(page=${currentPage - 1}, size=8)}">⟵ Prev</a>
+        </li>
+        <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+            <a th:href="@{/posts/all(page=${i}, size=8)}"
+               th:class="${i == currentPage ? 'active' : ''}"
+               th:text="${i + 1}">Page</a>
+        </li>
+        <li th:if="${currentPage < totalPages - 1}">
+            <a th:href="@{/posts/all(page=${currentPage + 1}, size=8)}">Next ⟶</a>
         </li>
     </ul>
-    
-     <div style="margin-top: 30px;">
-        <th:block th:if="${#authorization.expression('hasRole(''GUEST'')')}">
-            <a th:href="@{/blog/users/guest/dashboard}">🔙 Back to Guest Dashboard</a>
-        </th:block>
-    </div>
+</div>
+
+<!-- 🔙 Back to Dashboard -->
+<div style="margin-top: 30px;">
+    <th:block th:if="${#authorization.expression('hasRole(''GUEST'')')}">
+        <a th:href="@{/blog/users/guest/dashboard}">🔙 Back to Guest Dashboard</a>
+    </th:block>
+</div>
+
 </body>
 </html>
-
-
- 

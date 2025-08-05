@@ -48,12 +48,25 @@ public class LikeController {
         return ResponseEntity.ok(allLikes);
     }
     
-    @PostMapping("/toggle")
-    public String toggleLike(@RequestParam Long postId, Authentication auth) {
+    /*@PostMapping("/toggle")
+    public String toggleLike1(@RequestParam Long postId, Authentication auth) {
         String guestEmail = auth.getName();
         likeService.toggleLike(postId, guestEmail);
         return "redirect:/posts/view/" + postId;
+    }*/
+    @PostMapping("/toggle")
+    public String toggleLike(@RequestParam Long postId, Authentication auth) {
+        String guestEmail = auth.getName();
+        boolean alreadyLiked = likeService.alreadyLiked(guestEmail, postId);
+
+        if (alreadyLiked) {
+            likeService.removeLikeByEmailAndPost(guestEmail, postId);
+        } else {
+            likeService.addLike(postId, guestEmail);
+        }
+
+        return "redirect:/posts/view/" + postId;
     }
-    
+
 
 }

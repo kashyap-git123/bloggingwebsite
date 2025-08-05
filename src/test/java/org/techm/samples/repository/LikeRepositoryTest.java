@@ -1,11 +1,9 @@
 package org.techm.samples.repository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,25 +16,22 @@ import org.techm.samples.entity.Status;
 import org.techm.samples.entity.User;
 
 @DataJpaTest
-class LikeRepositoryTest{
-	
-	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	private PostRepository postRepository;
-	
-	@Autowired
-	private LikeRepository likeRepository;
-	
-	private Post post;
-	
-	private User user;
-	
-	private Like like;
-	
-	
-	@BeforeEach
+class LikeRepositoryTest {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PostRepository postRepository;
+
+    @Autowired
+    private LikeRepository likeRepository;
+
+    private Post post;
+    private User user;
+    private Like like;
+
+    @BeforeEach
     void setUp() {
         user = new User();
         user.setEmail("guest@example.com");
@@ -73,7 +68,9 @@ class LikeRepositoryTest{
 
     @Test
     void testFindByGuestEmailAndPostId() {
-        Like found = likeRepository.findByGuestEmailAndPostId("guest@example.com", post.getId());
+        Optional<Like> foundOpt = likeRepository.findByGuestEmailAndPostId("guest@example.com", post.getId());
+        assertTrue(foundOpt.isPresent());
+        Like found = foundOpt.get();
         assertNotNull(found);
         assertEquals("guest@example.com", found.getGuestEmail());
     }

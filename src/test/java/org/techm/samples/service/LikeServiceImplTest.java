@@ -71,6 +71,7 @@ class LikeServiceImplTest {
         List<Like> likes = likeService.getLikesByPost(1L);
 
         assertNotNull(likes);
+        assertTrue(likes.isEmpty());
     }
 
     @Test
@@ -103,6 +104,7 @@ class LikeServiceImplTest {
         List<Like> likes = likeService.getAllLikes();
 
         assertNotNull(likes);
+        assertTrue(likes.isEmpty());
     }
 
     @Test
@@ -124,7 +126,7 @@ class LikeServiceImplTest {
         like.setPost(post);
 
         when(likeRepo.existsByGuestEmailAndPostId("guest@example.com", 1L)).thenReturn(true);
-        when(likeRepo.findByGuestEmailAndPostId("guest@example.com", 1L)).thenReturn(like);
+        when(likeRepo.findByGuestEmailAndPostId("guest@example.com", 1L)).thenReturn(Optional.of(like));  // ✅ Fixed
 
         boolean result = likeService.toggleLike(1L, "guest@example.com");
 

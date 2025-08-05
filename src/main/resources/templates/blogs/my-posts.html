@@ -1,38 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>My Posts</title>
-<link rel="stylesheet" th:href="@{/css/blogger.css}">
-<link rel="stylesheet" th:href="@{/css/my-posts.css}">
+<head>
+    <title>My Posts</title>
+    <link rel="stylesheet" th:href="@{/css/blogger.css}">
+    <link rel="stylesheet" th:href="@{/css/my-posts.css}">
 </head>
 <body>
 <div th:replace="/blogs/blogger-layout :: layout(content=~{::content}, pageTitle='Dashboard')">
     <div th:fragment="content">
-   <h2 class="clean-light-heading">Posts You've Created</h2>
-    <div class="post-list">
-    <ul>
-        <li th:each="post : ${posts}">
-            <a th:href="@{'/posts/view/' + ${post.id}}">
-                <strong th:text="${post.title}">Post Title</strong>
-            </a>
-            <!-- <span th:text="${post.status}">Status</span> -->
-            <a th:href="@{'/posts/edit/' + ${post.id}}"><button>Edit</button></a>
-            <!-- <form th:action="@{'/posts/edit/' + ${post.id}}" method="post" style="display:inline;">
-                <button type="submit" onclick="return confirm('Edit this draft?')">Edit</button>
-            </form> -->
-            <form th:action="@{'/posts/delete/' + ${post.id}}" method="post" style="display:inline;">
-                <button type="submit" onclick="return confirm('Delete this post?')">Delete</button>
-            </form>
-        </li>
-    </ul>
+        <h2 class="clean-light-heading">Posts You've Created</h2>
+        <div class="post-list">
+            <ul>
+                <li th:each="post : ${posts}">
+                    <a th:href="@{'/posts/view/' + ${post.id}}">
+                        <strong th:text="${post.title}">Post Title</strong>
+                    </a>
+                    <p>
+                        <em th:if="${post.updatedAt != null}">
+                            Updated on: <span th:text="${#temporals.format(post.updatedAt, 'dd MMM yyyy HH:mm')}">Date</span>
+                        </em>
+                        <em th:unless="${post.updatedAt != null}">
+                            Created on: <span th:text="${#temporals.format(post.createdAt, 'dd MMM yyyy HH:mm')}">Date</span>
+                        </em>
+                    </p>
+                    <a th:href="@{'/posts/edit/' + ${post.id}}"><button>Edit</button></a>
+                    <form th:action="@{'/posts/delete/' + ${post.id}}" method="post" style="display:inline;">
+                        <button type="submit" onclick="return confirm('Delete this post?')">Delete</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 🔄 Pagination Controls -->
+        <div class="pagination">
+            <ul>
+                <li th:if="${currentPage > 0}">
+                    <a th:href="@{/posts/mine(page=${currentPage - 1}, size=6)}">⟵ Prev</a>
+                </li>
+
+                <li th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                    <a th:href="@{/posts/mine(page=${i}, size=6)}"
+                       th:class="${i == currentPage ? 'active' : ''}"
+                       th:text="${i + 1}">Page</a>
+                </li>
+
+                <li th:if="${currentPage < totalPages - 1}">
+                    <a th:href="@{/posts/mine(page=${currentPage + 1}, size=6)}">Next ⟶</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 🔙 Back Link -->
+        <div class="back-link" style="margin-top: 30px;">
+            <th:block th:if="${#authorization.expression('hasRole(''BLOGGER'')')}">
+                <a th:href="@{/blog/users/blogger/dashboard}">
+                    <button class="back-dashboard-button">🔙 Back to Blogger Dashboard</button>
+                </a>
+            </th:block>
+        </div>
     </div>
-    <div class="back-link" style="margin-top: 30px;">
-        <th:block th:if="${#authorization.expression('hasRole(''BLOGGER'')')}">
-       
-    <a th:href="@{/blog/users/blogger/dashboard}"><button class="back-dashboard-button">🔙 Back to Blogger Dashboard</button></a>
-        
-        </th:block>
-    </div>
-    </div>
-    </div>
+</div>
 </body>
 </html>

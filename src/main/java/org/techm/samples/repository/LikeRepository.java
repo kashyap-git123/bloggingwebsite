@@ -1,6 +1,7 @@
 package org.techm.samples.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -19,6 +20,8 @@ public interface LikeRepository extends JpaRepository<Like, Long> {
     @Query("DELETE FROM Like l WHERE l.post.id = :postId")
     void deleteByPostId(@Param("postId") Long postId);
     
-    Like findByGuestEmailAndPostId(String guestEmail, Long postId);
+    //Like findByGuestEmailAndPostId(String guestEmail, Long postId);
+    Optional<Like> findByGuestEmailAndPostId(String guestEmail, Long postId);
+
 
 }

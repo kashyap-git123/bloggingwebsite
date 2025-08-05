@@ -1,7 +1,9 @@
 package org.techm.samples.repository;
-
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -9,9 +11,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.techm.samples.entity.Post;
 import org.techm.samples.entity.Status;
+import org.techm.samples.entity.User;
 
 import jakarta.transaction.Transactional;
-
 @Repository
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findByStatus(Status status);
@@ -24,6 +26,16 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 	void deleteByPostId(@Param("postId") Long postId);*/
 	@Query("DELETE FROM Post p WHERE p.id = :id")
 	void deleteByCustomId(@Param("id") Long id);
+	
+	List<Post> findByAuthorNameContainingIgnoreCase(String name);
+
+	List<Post> findByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
+	Page<Post> findByAuthorNot(User author, Pageable pageable);
+	Page<Post> findByAuthorEmailAndStatus(String email, Status published, Pageable pageable);
+	Page<Post> findByStatus(Status published, Pageable pageable);
+
+	
+
 
     
 }

@@ -12,6 +12,7 @@ public interface LikeService {
     List<Like> getAllLikes();
     
     boolean toggleLike(Long postId, String guestEmail);
+    void removeLikeByEmailAndPost(String email, Long postId);
 
     
 }

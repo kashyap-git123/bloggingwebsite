@@ -93,6 +93,7 @@ h2 {
 .back-link a:hover {
     text-decoration: underline;
 }
+
 .clean-light-heading {
     text-align: center;
     font-size: 2.4rem;
@@ -122,4 +123,38 @@ h2 {
     transform: scale(1.03);
 }
 
+/* 🔄 Pagination Styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+}
 
+.pagination ul {
+    list-style: none;
+    display: flex;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+}
+
+.pagination a {
+    text-decoration: none;
+    padding: 8px 14px;
+    background-color: #e0e0e0;
+    color: #333;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.pagination a:hover {
+    background-color: #c0c0c0;
+    transform: scale(1.05);
+}
+
+.pagination a.active {
+    background-color: #3498db;
+    color: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}

@@ -18,7 +18,7 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* Updated styling for .post-list to match listing format */
+/* Post listing format */
 .post-list {
     max-width: 800px;
     margin: 40px auto;
@@ -109,6 +109,39 @@ body {
     transform: scale(1.03);
 }
 
+/* Pagination Controls */
+.pagination-controls {
+    margin: 30px auto;
+    text-align: center;
+    font-size: 0.95rem;
+    color: #555;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+.pagination-controls span {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.paginate-button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    margin: 5px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.paginate-button:hover {
+    background-color: #2e86c1;
+    transform: scale(1.05);
+}
+
 @media (max-width: 768px) {
     .post-list {
         padding: 0 1rem;
@@ -116,5 +149,10 @@ body {
 
     .post-list ul li {
         padding: 14px;
+    }
+
+    .paginate-button {
+        width: 100%;
+        margin-top: 10px;
     }
 }

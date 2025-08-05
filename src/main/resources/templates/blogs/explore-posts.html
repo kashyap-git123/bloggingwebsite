@@ -10,6 +10,7 @@
 <div th:replace="/blogs/blogger-layout :: layout(content=~{::content}, pageTitle='Dashboard')">
     <div th:fragment="content">
         <h2 class="clean-light-heading">Explore Other Bloggers' Posts</h2>
+
         <div class="post-list">
             <ul>
                 <li th:each="post : ${posts}">
@@ -22,6 +23,26 @@
                     </th:block>
                 </li>
             </ul>
+        </div>
+
+        <!-- 🧭 Pagination controls -->
+        <div class="pagination-controls" style="margin-top: 20px; text-align: center;">
+            <span th:text="'Page ' + (${currentPage} + 1) + ' of ' + ${totalPages}"></span>
+            <br/>
+            <span th:text="'Total posts: ' + ${totalItems}"></span>
+            <br/><br/>
+
+            <div>
+                <a th:href="@{/posts/others(page=${currentPage - 1}, size=5)}"
+                   th:if="${currentPage > 0}">
+                    <button class="paginate-button">⬅️ Previous</button>
+                </a>
+
+                <a th:href="@{/posts/others(page=${currentPage + 1}, size=5)}"
+                   th:if="${currentPage + 1 < totalPages}">
+                    <button class="paginate-button">Next ➡️</button>
+                </a>
+            </div>
         </div>
 
         <div class="back-link" style="margin-top: 30px;">
