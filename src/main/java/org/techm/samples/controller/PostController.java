@@ -26,7 +26,6 @@ import org.techm.samples.service.UserService;
 
 @Controller
 @RequestMapping("/posts")
-@PreAuthorize("hasRole('BLOGGER')")
 public class PostController {
 
     @Autowired
@@ -42,12 +41,14 @@ public class PostController {
     private CommentService commentService;
 
     @GetMapping("/create")
+    @PreAuthorize("hasRole('BLOGGER')")
     public String showCreateForm(Model model) {
         model.addAttribute("post", new Post());
         return "blogs/create-post";
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('BLOGGER')")
     public String handleCreate(@ModelAttribute("post") Post post, Authentication auth) {
         User user = userService.userByUsername(auth.getName());
         post.setAuthor(user);
@@ -61,6 +62,7 @@ public class PostController {
     }
 
     @GetMapping("/mine")
+    @PreAuthorize("hasRole('BLOGGER')")
     public String showMyPosts(
         Authentication auth,
         Model model,
@@ -79,6 +81,7 @@ public class PostController {
 
 
     @GetMapping("/drafts")
+    @PreAuthorize("hasRole('BLOGGER')")
     public String showMyDrafts(Authentication auth, Model model) {
         List<Post> drafts = postService.getDraftsByUserEmail(auth.getName());
         model.addAttribute("drafts", drafts);
@@ -86,6 +89,7 @@ public class PostController {
     }
 
     @GetMapping("/edit/{id}")
+    @PreAuthorize("hasRole('BLOGGER')")
     public String editPostForm(@PathVariable Long id, Model model) {
         Post post = postService.getPostById(id);
         model.addAttribute("post", post);
@@ -93,6 +97,7 @@ public class PostController {
     }
 
     @PostMapping("/edit/{id}")
+    @PreAuthorize("hasRole('BLOGGER')")
     public String handleEdit(@PathVariable Long id, @ModelAttribute Post updatedPost) {
         updatedPost.setUpdatedAt(LocalDateTime.now());
         postService.editPost(id, updatedPost);
@@ -100,6 +105,7 @@ public class PostController {
     }
 
     @PostMapping("/delete/{id}")
+    @PreAuthorize("hasRole('BLOGGER')")
     public String deletePost(@PathVariable Long id) {
         boolean deleted = postService.deletePost(id);
         return "redirect:/posts/mine";
@@ -128,6 +134,7 @@ public class PostController {
     }
 
     @PostMapping("/publish/{id}")
+    @PreAuthorize("hasRole('BLOGGER')")
     public String publishDraft(@PathVariable Long id) {
         postService.publishDraft(id);
         return "redirect:/posts/mine";
@@ -168,6 +175,7 @@ public class PostController {
 
     
     @GetMapping("/others")
+    @PreAuthorize("hasRole('BLOGGER')")
     public String showOtherBloggersPosts(
             Authentication auth,
             Model model,

@@ -1,0 +1,82 @@
+name: blogging-elk
+
+services:
+  demo-mysql:
+    image: mysql:8.4.4
+    environment:
+      MYSQL_DATABASE: blogging_elk_demo
+      MYSQL_USER: blogging_demo
+      MYSQL_PASSWORD: ${BLOG_DEMO_DB_PASSWORD:-blogging-demo-local-only}
+      MYSQL_ROOT_PASSWORD: ${BLOG_DEMO_DB_PASSWORD:-blogging-demo-local-only}
+    ports:
+      - "127.0.0.1:3307:3306"
+    volumes:
+      - demo-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTIC_VERSION:-8.17.4}
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      cluster.name: blogging-local
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+    ports:
+      - "127.0.0.1:9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS 'http://localhost:9200/_cluster/health?wait_for_status=yellow' >/dev/null || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 30s
+    networks:
+      - observability
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:${ELASTIC_VERSION:-8.17.4}
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      TELEMETRY_ENABLED: "false"
+    ports:
+      - "127.0.0.1:5601:5601"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:5601/api/status >/dev/null || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 30
+      start_period: 45s
+    networks:
+      - observability
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:${ELASTIC_VERSION:-8.17.4}
+    user: root
+    command: ["-e", "--strict.perms=false"]
+    volumes:
+      - ./docker/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ./logs:/usr/share/blog-logs:ro
+      - filebeat-data:/usr/share/filebeat/data
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+    networks:
+      - observability
+
+volumes:
+  demo-mysql-data:
+  elasticsearch-data:
+  filebeat-data:
+
+networks:
+  observability:
+    driver: bridge

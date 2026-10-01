@@ -224,46 +224,68 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post createPost(Post post) {
-        logger.info("Creating post for author ID: {}", post.getAuthor().getId());
         User author = userRepository.findById(post.getAuthor().getId())
                 .orElseThrow(() -> new AuthorNotFoundException("Author not found"));
         post.setAuthor(author);
         post.setCreatedAt(LocalDateTime.now());
         post.setStatus(Status.PUBLISHED);
-        return postRepository.save(post);
+        Post savedPost = postRepository.save(post);
+        logger.atInfo()
+            .addKeyValue("event.action", "post.published")
+            .addKeyValue("event.outcome", "success")
+            .addKeyValue("post.id", savedPost.getId())
+            .addKeyValue("user.id", author.getId())
+            .log("Post published");
+        return savedPost;
     }
 
     @Override
     public Post saveAsDraft(Post post) {
-        logger.info("Saving post as draft for author ID: {}", post.getAuthor().getId());
         User author = userRepository.findById(post.getAuthor().getId())
                 .orElseThrow(() -> new AuthorNotFoundException("Author not found"));
         post.setAuthor(author);
         post.setCreatedAt(LocalDateTime.now());
         post.setStatus(Status.DRAFT);
-        return postRepository.save(post);
+        Post savedPost = postRepository.save(post);
+        logger.atInfo()
+            .addKeyValue("event.action", "post.drafted")
+            .addKeyValue("event.outcome", "success")
+            .addKeyValue("post.id", savedPost.getId())
+            .addKeyValue("user.id", author.getId())
+            .log("Post saved as draft");
+        return savedPost;
     }
 
     @Override
     public Post editPost(Long id, Post updatedPost) {
-        logger.info("Editing post with ID: {}", id);
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new PostNotFoundException("Post not found with ID: " + id));
         post.setTitle(updatedPost.getTitle());
         post.setContent(updatedPost.getContent());
         post.setUpdatedAt(LocalDateTime.now());
-        return postRepository.save(post);
+        Post savedPost = postRepository.save(post);
+        logger.atInfo()
+            .addKeyValue("event.action", "post.updated")
+            .addKeyValue("event.outcome", "success")
+            .addKeyValue("post.id", savedPost.getId())
+            .log("Post updated");
+        return savedPost;
     }
 
     @Override
     @Transactional
     public boolean deletePost(Long id) {
-        logger.info("Deleting post with ID: {}", id);
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new PostNotFoundException("Post not found with ID: " + id));
         commentRepository.deleteByPostId(id);
         likeRepository.deleteByPostId(id);
         postRepository.deleteByCustomId(id);
+        logger.atInfo()
+            .addKeyValue("event.action", "post.deleted")
+            .addKeyValue("event.outcome", "success")
+            .addKeyValue("post.id", id)
+            .addKeyValue("user.id", post.getAuthor().getId())
+            .log("Post deleted");
         return true;
     }
 
@@ -323,6 +345,12 @@ public class PostServiceImpl implements PostService {
             post.setStatus(Status.PUBLISHED);
             post.setUpdatedAt(LocalDateTime.now());
             postRepository.save(post);
+                logger.atInfo()
+                    .addKeyValue("event.action", "post.published")
+                    .addKeyValue("event.outcome", "success")
+                    .addKeyValue("post.id", post.getId())
+                    .addKeyValue("user.id", post.getAuthor().getId())
+                    .log("Draft published");
         });
     }
 
@@ -339,11 +367,9 @@ public class PostServiceImpl implements PostService {
 
  
     public Page<Post> getOtherPostsPaginated(String currentUserEmail, int page, int size) {
-        logger.debug("Fetching paginated posts not authored by: {}", currentUserEmail);
-
         User currentUser = userRepository.findByEmail(currentUserEmail);
         if (currentUser == null) {
-            throw new AuthorNotFoundException("User not found with email: " + currentUserEmail);
+            throw new AuthorNotFoundException("User not found");
         }
 
         Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());

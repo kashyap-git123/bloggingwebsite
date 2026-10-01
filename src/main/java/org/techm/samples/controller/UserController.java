@@ -57,7 +57,6 @@ public class UserController {
 
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("user") User user) {
-    	System.out.println("Saving user: " + user.getEmail());
         userService.register(user);
         return "redirect:/blog/users/login";
     }

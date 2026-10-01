@@ -14,19 +14,31 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<String> handleUserAlreadyExists(UserAlreadyExistsException ex) {
-        logger.warn("User registration error: {}", ex.getMessage());
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+        logger.atWarn()
+            .addKeyValue("event.action", "user.registration")
+            .addKeyValue("event.outcome", "failure")
+            .addKeyValue("error.type", ex.getClass().getName())
+            .log("User registration rejected");
+        return new ResponseEntity<>("User already exists", HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<String> handleUserNotFound(UserNotFoundException ex) {
-        logger.warn("User not found: {}", ex.getMessage());
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+        logger.atWarn()
+            .addKeyValue("event.action", "user.lookup")
+            .addKeyValue("event.outcome", "failure")
+            .addKeyValue("error.type", ex.getClass().getName())
+            .log("User lookup failed");
+        return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGenericException(Exception ex) {
-        logger.error("Unexpected error occurred", ex);
+        logger.atError()
+            .addKeyValue("event.action", "http.request")
+            .addKeyValue("event.outcome", "failure")
+            .addKeyValue("error.type", ex.getClass().getName())
+            .log("Request failed");
         return new ResponseEntity<>("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

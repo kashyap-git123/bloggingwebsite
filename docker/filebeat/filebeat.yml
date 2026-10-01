@@ -1,0 +1,20 @@
+filebeat.inputs:
+  - type: filestream
+    id: bloggingwebsite-ecs-json
+    enabled: true
+    paths:
+      - /usr/share/blog-logs/blog-app.json
+    parsers:
+      - ndjson:
+          overwrite_keys: true
+          add_error_key: true
+
+setup.ilm.enabled: false
+setup.template.name: bloggingwebsite-logs
+setup.template.pattern: bloggingwebsite-logs-*
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  index: "bloggingwebsite-logs-%{+yyyy.MM.dd}"
+
+logging.level: info

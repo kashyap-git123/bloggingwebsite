@@ -3,6 +3,8 @@ package org.techm.samples.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.techm.samples.entity.Like;
@@ -13,6 +15,7 @@ import org.techm.samples.repository.PostRepository;
 @Service
 public class LikeServiceImpl implements LikeService {
 
+        private static final Logger logger = LoggerFactory.getLogger(LikeServiceImpl.class);
 
 	    @Autowired
 	    private LikeRepository likeRepo;
@@ -29,7 +32,12 @@ public class LikeServiceImpl implements LikeService {
 	            Like like = new Like();
 	            like.setPost(post);
 	            like.setGuestEmail(guestEmail);
-	            likeRepo.save(like);
+                    likeRepo.save(like);
+                logger.atInfo()
+                        .addKeyValue("event.action", "post.liked")
+                        .addKeyValue("event.outcome", "success")
+                        .addKeyValue("post.id", postId)
+                        .log("Post liked");
 	        }
 	    }
 
@@ -43,6 +51,11 @@ public class LikeServiceImpl implements LikeService {
             throw new RuntimeException("Like not found");
         }
         likeRepo.deleteById(likeId);
+        logger.atInfo()
+                .addKeyValue("event.action", "post.unliked")
+                .addKeyValue("event.outcome", "success")
+                .addKeyValue("like.id", likeId)
+                .log("Post unliked");
     }
  
    
@@ -74,7 +87,15 @@ public class LikeServiceImpl implements LikeService {
     }*/
     public void removeLikeByEmailAndPost(String email, Long postId) {
         Optional<Like> like = likeRepo.findByGuestEmailAndPostId(email, postId);
-        like.ifPresent(likeRepo::delete);
+        like.ifPresent(existingLike -> {
+            likeRepo.delete(existingLike);
+            logger.atInfo()
+                    .addKeyValue("event.action", "post.unliked")
+                    .addKeyValue("event.outcome", "success")
+                    .addKeyValue("like.id", existingLike.getId())
+                    .addKeyValue("post.id", postId)
+                    .log("Post unliked");
+        });
     }
     public boolean alreadyLiked(String email, Long postId) {
         return likeRepo.findByGuestEmailAndPostId(email, postId).isPresent();

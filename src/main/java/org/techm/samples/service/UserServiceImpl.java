@@ -75,28 +75,33 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User register(User user) {
-        logger.info("Attempting to register user with email: {}", user.getEmail());
-
         if (userRepo.findByEmail(user.getEmail()) != null) {
-            logger.warn("Registration failed: User with email {} already exists", user.getEmail());
-            throw new UserAlreadyExistsException("User with email " + user.getEmail() + " already exists.");
+            logger.atWarn()
+                .addKeyValue("event.action", "user.registration")
+                .addKeyValue("event.outcome", "failure")
+                .addKeyValue("user.role", user.getRole())
+                .log("User registration rejected");
+            throw new UserAlreadyExistsException("User already exists");
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User savedUser = userRepo.save(user);
 
-        logger.info("User registered successfully: {}", savedUser.getEmail());
+        logger.atInfo()
+            .addKeyValue("event.action", "user.registration")
+            .addKeyValue("event.outcome", "success")
+            .addKeyValue("user.id", savedUser.getId())
+            .addKeyValue("user.role", savedUser.getRole())
+            .log("User registered");
         return savedUser;
     }
 
     @Override
     public User userByUsername(String email) {
-        logger.debug("Fetching user by email: {}", email);
         User user = userRepo.findByEmail(email);
 
         if (user == null) {
-            logger.error("User not found with email: {}", email);
-            throw new UserNotFoundException("User not found with email: " + email);
+            throw new UserNotFoundException("User not found");
         }
 
         return user;
@@ -104,15 +109,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        logger.debug("Loading user details for authentication: {}", email);
         User user = userRepo.findByEmail(email);
 
         if (user == null) {
-            logger.error("Authentication failed: User not found with email: {}", email);
+            logger.atWarn()
+                .addKeyValue("event.action", "user.authentication")
+                .addKeyValue("event.outcome", "failure")
+                .log("Authentication rejected");
             throw new UsernameNotFoundException("User not found");
         }
 
         String roleName = "ROLE_" + user.getRole().name();
+        logger.atInfo()
+            .addKeyValue("event.action", "user.authentication.lookup")
+            .addKeyValue("event.outcome", "success")
+            .addKeyValue("user.id", user.getId())
+            .addKeyValue("user.role", user.getRole())
+            .log("Authentication principal loaded");
         return new org.springframework.security.core.userdetails.User(
             user.getEmail(),
             user.getPassword(),
