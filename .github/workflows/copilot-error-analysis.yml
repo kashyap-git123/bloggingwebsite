@@ -11,6 +11,10 @@ on:
         description: Optional error message to analyze instead of the sample file
         required: false
         type: string
+      event_payload:
+        description: JSON log-event payload sent by the Elasticsearch relay
+        required: false
+        type: string
   repository_dispatch:
     types: [kibana-errors]
 
@@ -32,11 +36,14 @@ jobs:
         env:
           KIBANA_INPUT_PATH: ${{ github.event.inputs.input_path || 'tools/kibana-sample.json' }}
           KIBANA_EVENT_PAYLOAD: ${{ toJson(github.event.client_payload) }}
+          KIBANA_DISPATCH_PAYLOAD: ${{ inputs.event_payload }}
           KIBANA_ERROR_MESSAGE: ${{ inputs.error_message }}
           GITHUB_EVENT_TYPE: ${{ github.event.action || 'workflow_dispatch' }}
         run: |
           echo "Incoming GitHub event: $GITHUB_EVENT_TYPE"
-          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && -n "$KIBANA_ERROR_MESSAGE" ]]; then
+          if [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && -n "$KIBANA_DISPATCH_PAYLOAD" ]]; then
+            KIBANA_EVENT_PAYLOAD="$KIBANA_DISPATCH_PAYLOAD" python tools/kibana_log_analyzer.py
+          elif [[ "$GITHUB_EVENT_NAME" == "workflow_dispatch" && -n "$KIBANA_ERROR_MESSAGE" ]]; then
             payload="$(jq -cn --arg message "$KIBANA_ERROR_MESSAGE" \
               '{events:[{"@timestamp":(now|todate),"log.level":"ERROR","event.action":"manual.error.analysis","event.outcome":"failure","error.type":"UserProvidedError","error.message":$message}]}')"
             KIBANA_EVENT_PAYLOAD="$payload" python tools/kibana_log_analyzer.py
@@ -50,7 +57,7 @@ jobs:
           echo "The workflow highlights likely causes, evidence, and feasible remediation based on the Kibana payload." >> "$GITHUB_STEP_SUMMARY"
 
   copilot-report:
-    if: github.event_name == 'repository_dispatch' || (github.event_name == 'workflow_dispatch' && inputs.error_message != '')
+    if: github.event_name == 'repository_dispatch' || (github.event_name == 'workflow_dispatch' && (inputs.event_payload != '' || inputs.error_message != ''))
     needs: analyze
     runs-on: ubuntu-latest
     permissions: {}
@@ -67,6 +74,7 @@ jobs:
         env:
           COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
           ERROR_MESSAGE: ${{ inputs.error_message }}
+          EVENT_PAYLOAD: ${{ inputs.event_payload }}
         run: |
           set -euo pipefail
           if [ -z "$COPILOT_GITHUB_TOKEN" ]; then
@@ -87,6 +95,8 @@ jobs:
                 service: (.["service.name"] // .service.name)
               })
             ' "$GITHUB_EVENT_PATH")"
+          elif [[ -n "$EVENT_PAYLOAD" ]]; then
+            events="$(jq -c '.events // []' <<< "$EVENT_PAYLOAD")"
           else
             events="$(jq -cn --arg message "$ERROR_MESSAGE" \
               '[{action:"manual.error.analysis",level:"ERROR",outcome:"failure",error_type:"UserProvidedError",error_message:$message}]')"
