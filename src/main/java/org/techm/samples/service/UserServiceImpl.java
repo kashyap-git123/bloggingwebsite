@@ -57,6 +57,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.techm.samples.entity.Role;
 import org.techm.samples.entity.User;
 import org.techm.samples.exception.UserAlreadyExistsException;
 import org.techm.samples.exception.UserNotFoundException;
@@ -131,5 +132,28 @@ public class UserServiceImpl implements UserService {
             user.getPassword(),
             List.of(new SimpleGrantedAuthority(roleName))
         );
+    }
+
+    @Override
+    public User simulateSilentBackendFailure(String email, boolean simulate) {
+        if (!simulate) {
+            return userRepo.findByEmail(email);
+        }
+
+        try {
+            throw new IllegalStateException("Simulated profile lookup timeout in downstream user service");
+        } catch (IllegalStateException ex) {
+            logger.atWarn()
+                .addKeyValue("event.action", "user.profile.lookup")
+                .addKeyValue("event.outcome", "failure")
+                .addKeyValue("error.type", ex.getClass().getName())
+                .addKeyValue("error.message", ex.getMessage())
+                .log("Profile lookup degraded, fallback returned");
+
+            User fallback = new User();
+            fallback.setEmail(email);
+            fallback.setRole(Role.GUEST);
+            return fallback;
+        }
     }
 }

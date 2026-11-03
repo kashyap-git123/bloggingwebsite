@@ -51,7 +51,7 @@ class LoggingAspectTest {
     }
 
     @Test
-    void doesNotLogExceptionMessages() throws Throwable {
+    void includesStructuredErrorMessageForExceptions() throws Throwable {
         String sensitiveValue = "demo-private-value@example.test";
         ProceedingJoinPoint joinPoint = mock(ProceedingJoinPoint.class);
         Signature signature = mock(Signature.class);
@@ -64,5 +64,11 @@ class LoggingAspectTest {
 
         assertFalse(appender.list.get(0).getFormattedMessage().contains(sensitiveValue));
         assertEquals("Application method failed", appender.list.get(0).getFormattedMessage());
+        assertEquals(sensitiveValue,
+                appender.list.get(0).getKeyValuePairs().stream()
+                        .filter(pair -> "error.message".equals(pair.key))
+                        .map(pair -> pair.value)
+                        .findFirst()
+                        .orElseThrow());
     }
 }

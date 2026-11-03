@@ -111,4 +111,3 @@ class UserControllerTest {
                .andExpect(redirectedUrl("/blog/users/guest/dashboard"));
     }
 }
-

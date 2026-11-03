@@ -6,5 +6,6 @@ import org.techm.samples.entity.User;
 public interface UserService extends UserDetailsService {
     User register(User user);
     User userByUsername(String email);
+    User simulateSilentBackendFailure(String email, boolean simulate);
 }
 

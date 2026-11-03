@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -94,5 +95,14 @@ class UserServiceImplTest {
 
         assertThrows(org.springframework.security.core.userdetails.UsernameNotFoundException.class,
                      () -> userService.loadUserByUsername(user.getEmail()));
+    }
+
+    @Test
+    void testSimulateSilentBackendFailureReturnsFallback() {
+        User fallback = userService.simulateSilentBackendFailure(user.getEmail(), true);
+
+        assertEquals(user.getEmail(), fallback.getEmail());
+        assertEquals(org.techm.samples.entity.Role.GUEST, fallback.getRole());
+        verifyNoInteractions(userRepo);
     }
 }

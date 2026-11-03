@@ -1,0 +1,26 @@
+[
+  {
+    "@timestamp": "2026-10-01T12:00:00.000Z",
+    "log.level": "ERROR",
+    "event.action": "http.request",
+    "event.outcome": "failure",
+    "error.type": "org.springframework.web.servlet.resource.NoResourceFoundException",
+    "error.message": "No static resource favicon.ico.",
+    "correlation.id": "7ecef9f2-4fbe-4d2f-85ce-a7f70ed28a08",
+    "service.name": "BloggingWebsite",
+    "url.path": "/favicon.ico",
+    "http.request.method": "GET"
+  },
+  {
+    "@timestamp": "2026-10-01T12:00:10.000Z",
+    "log.level": "WARN",
+    "event.action": "user.registration",
+    "event.outcome": "failure",
+    "error.type": "org.techm.samples.exception.UserAlreadyExistsException",
+    "error.message": "User already exists",
+    "correlation.id": "adb5f5b6-2d8a-4473-b2f6-46218d91966b",
+    "service.name": "BloggingWebsite",
+    "url.path": "/blog/users/register",
+    "http.request.method": "POST"
+  }
+]

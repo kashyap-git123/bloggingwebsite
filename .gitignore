@@ -36,3 +36,7 @@ build/
 /logs/blog-app.json
 hs_err_pid*.log
 replay_pid*.log
+
+.env
+
+/logs
