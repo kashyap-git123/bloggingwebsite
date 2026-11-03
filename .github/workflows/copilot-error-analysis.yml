@@ -32,13 +32,13 @@ jobs:
 
       - name: Run read-only RCA with Copilot CLI
         env:
-          COPILOT_GITHUB_TOKEN: ${{ github.token }}
+          COPILOT_GITHUB_TOKEN: ${{ secrets.COPILOT_GITHUB_TOKEN }}
           ERROR_MESSAGE: ${{ inputs.error_message }}
           EVENT_PAYLOAD: ${{ inputs.event_payload }}
         run: |
           set -euo pipefail
           if [[ -z "$COPILOT_GITHUB_TOKEN" ]]; then
-            echo "COPILOT_GITHUB_TOKEN Actions secret is required." >&2
+            echo "Configure the COPILOT_GITHUB_TOKEN Actions secret with a Copilot Requests credential." >&2
             exit 1
           fi
 
